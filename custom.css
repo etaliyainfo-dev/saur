@@ -1,0 +1,872 @@
+/* fastrr css starts */
+.ecomus-product-atc-group {
+  flex-direction: column !important;
+}
+
+.wc-proceed-to-checkout,
+.wc-proceed-to-checkoutt {
+  width: 100% !important;
+}
+
+.shiprocket-headless[data-type="product"] {
+  margin-top: 0 !important;
+}
+
+.sr-headless-checkout,
+.sr-headless-checkout[data-type="mini-cart"],
+.sr-headless-checkout[data-type="cart"] {
+  background-color: #0a7103 !important;
+}
+/* fastrr css ends */
+
+.woocommerce-product-gallery__image {
+  border: 1px solid #ccc;
+  padding: 1px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.woocommerce-product-gallery__image:hover,
+.woocommerce-product-gallery__image.active {
+  border-color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Breadcrumb (Mobile Optimization) */
+@media (max-width: 768px) {
+  .woocommerce-breadcrumb {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* Product Title – Limit to 2 Lines */
+.woocommerce-loop-product__title.em-font-normal {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  height: 40px;
+}
+
+/* WhatsApp Button - Small Size + Float + Pulse Animation */
+.qlwapp__button.qlwapp__button--bubble {
+  width: 52px !important;
+  height: 52px !important;
+  animation: float 3s ease-in-out infinite, pulse 2s infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+/* Icon inside the button */
+.qlwapp__button.qlwapp__button--bubble svg,
+.qlwapp__button.qlwapp__button--bubble img {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+/* Hover effect (slightly pop out) */
+.qlwapp__button.qlwapp__button--bubble:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+}
+
+/* Floating up-down animation */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Soft pulse glow animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* Archive & Grid Add to Cart Button (Force Override) */
+a.button.product_type_variable.add_to_cart_button.ecomus-button.product-loop-button.product-loop-button-atc {
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid #ddd !important;
+}
+
+/* Hover */
+a.button.product_type_variable.add_to_cart_button.ecomus-button.product-loop-button.product-loop-button-atc:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  a.button.product_type_variable.add_to_cart_button.ecomus-button.product-loop-button.product-loop-button-atc {
+    border-radius: 5px !important;
+    padding: 8px 14px !important;
+  }
+}
+
+/* Add to Cart Button (Force Override) */
+.product-loop-button-atc {
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid #ddd !important;
+}
+
+/* Hover */
+.product-loop-button-atc:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .product-loop-button-atc {
+    border-radius: 5px !important;
+    padding: 8px 14px !important;
+  }
+}
+
+/* =====================================
+   SEO EXPAND CONTENT – OPTIMIZED FINAL
+===================================== */
+
+/* FULL WIDTH WRAPPER */
+.simple-expand-wrap {
+  width: 100%;
+  margin: 32px 0 48px;
+  padding: 0 18px;
+}
+
+/* TEXT BASE */
+.simple-expand-text {
+  color: #333;
+  font-weight: 400;
+}
+
+/* ======================
+   HEADINGS (ALWAYS VISIBLE)
+====================== */
+.simple-expand-text h1,
+.simple-expand-text h2,
+.simple-expand-text h3 {
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+  display: block !important;
+}
+
+.simple-expand-text h1 {
+  font-size: 30px;
+  line-height: 1.3;
+  margin-bottom: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.simple-expand-text h2 {
+  font-size: 21px;
+  line-height: 1.35;
+  margin: 26px 0 10px;
+  font-weight: 600;
+  color: #111;
+}
+
+.simple-expand-text h3 {
+  font-size: 17px;
+  line-height: 1.4;
+  margin: 20px 0 8px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* ======================
+   PARAGRAPHS (TIGHTENED)
+====================== */
+.simple-expand-text p {
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+  color: #444;
+}
+
+/* ======================
+   LISTS (CLEAN & COMPACT)
+====================== */
+.simple-expand-text ul,
+.simple-expand-text ol {
+  margin: 10px 0 14px 18px;
+}
+
+.simple-expand-text li {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+/* ======================
+   SHOW MORE BUTTON
+====================== */
+.simple-expand-btn {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #e10600;
+  cursor: pointer;
+  float: right;
+  text-transform: lowercase;
+}
+
+.simple-expand-wrap::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* ======================
+   DESKTOP / TABLET COLLAPSE
+====================== */
+@media (min-width: 768px) {
+  /* Collapse only content, not headings */
+  .simple-expand-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .simple-expand-text.is-open {
+    -webkit-line-clamp: unset;
+  }
+}
+
+/* ======================
+   MOBILE OPTIMIZATION
+====================== */
+@media (max-width: 767px) {
+  .simple-expand-text h1 {
+    font-size: 21px;
+    margin-bottom: 8px;
+  }
+
+  .simple-expand-text p,
+  .simple-expand-text li {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .simple-expand-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .simple-expand-text.is-open {
+    -webkit-line-clamp: unset;
+  }
+}
+
+/* =====================================================
+   REMOVE DEFAULT ECOMUS / WCBOOST COLOR SWATCHES
+   ===================================================== */
+.wcboost-variation-swatches[data-attribute_name="attribute_pa_color"],
+.wcboost-variation-swatches__wrapper[data-attribute_name="attribute_pa_color"],
+.variations tr:has(select#pa_color) {
+  display: none !important;
+}
+
+/* =====================================================
+   LINKED COLOR SWATCHES (INCREASED SIZE – DESKTOP + MOBILE)
+   ===================================================== */
+.linked-color-swatches {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 25px 0;
+}
+
+.linked-color-swatches label {
+  min-width: 60px;
+  font-weight: 600;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Swatch list */
+.linked-color-swatches .swatch-list {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* =====================================================
+   SWATCH BOX – DESKTOP DEFAULT
+   ===================================================== */
+.linked-color-swatches .swatch {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 0.5px solid #ddd;
+  border-radius: 8px;
+  overflow: visible;
+  background: #fff;
+  cursor: pointer;
+  transition: border 0.2s ease, transform 0.15s ease;
+}
+
+.linked-color-swatches .swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+/* Active swatch */
+.linked-color-swatches .swatch.active {
+  border: 2px solid #000;
+}
+
+/* =====================================================
+   TOOLTIP – HOVER ONLY (HIDE ON ACTIVE)
+   ===================================================== */
+.linked-color-swatches .swatch-label {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s ease;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.linked-color-swatches .swatch-label::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #000 transparent transparent transparent;
+}
+
+/* Hover show tooltip */
+.linked-color-swatches .swatch:hover .swatch-label {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide tooltip when selected */
+.linked-color-swatches .swatch.active .swatch-label {
+  display: none;
+}
+
+/* =====================================================
+   MOBILE FIX – PERFECT SIZE + CENTER ALIGNMENT
+   ===================================================== */
+@media (max-width: 767px) {
+  .linked-color-swatches {
+    align-items: center;
+    gap: 14px;
+  }
+
+  .linked-color-swatches label {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .linked-color-swatches .swatch {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+  }
+}
+
+/* =====================================================
+   EURO SIZE TOOLTIP (IF USED)
+   ===================================================== */
+#euro-size-tooltip {
+  position: absolute;
+  z-index: 9999;
+  background: #111;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   SALE BADGE COLOR (GREEN)
+   ===================================================== */
+.sale-off.em-font-bold {
+  background-color: #0f7f07 !important;
+  color: #ffffff !important;
+  border-color: #0f7f07 !important;
+}
+
+/* =====================================
+   PILLAA – CONTACT FORM (ULTRA COMPACT)
+===================================== */
+
+.pillaa-contact-form {
+  max-width: 580px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Rows */
+.pillaa-contact-form .cf7-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.pillaa-contact-form .cf7-col {
+  width: 50%;
+}
+
+/* Labels */
+.pillaa-contact-form label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 2px;
+}
+
+/* Inputs / Select / Textarea */
+.pillaa-contact-form input,
+.pillaa-contact-form select,
+.pillaa-contact-form textarea {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+/* Focus */
+.pillaa-contact-form input:focus,
+.pillaa-contact-form select:focus,
+.pillaa-contact-form textarea:focus {
+  outline: none;
+  border-color: #0f7f07;
+  box-shadow: 0 0 0 1.5px rgba(15, 127, 7, 0.12);
+}
+
+/* Textarea */
+.pillaa-contact-form textarea {
+  min-height: 65px;
+  resize: vertical;
+}
+
+/* Submit Button */
+.pillaa-contact-form input[type="submit"] {
+  width: 100%;
+  background: #0f7f07;
+  color: #ffffff;
+  border: 1px solid #0f7f07;
+  padding: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 9px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.pillaa-contact-form input[type="submit"]:hover {
+  background: #0c6a06;
+  border-color: #0c6a06;
+}
+
+/* Validation */
+.pillaa-contact-form .wpcf7-not-valid {
+  border-color: #e10600;
+}
+
+.pillaa-contact-form .wpcf7-not-valid-tip {
+  font-size: 11.5px;
+  color: #e10600;
+  margin-top: 2px;
+}
+
+/* Messages */
+.pillaa-contact-form .wpcf7-mail-sent-ok,
+.pillaa-contact-form .wpcf7-validation-errors {
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-size: 12.5px;
+}
+
+/* =====================================
+   MOBILE – ULTRA COMPACT (2 COLUMN)
+===================================== */
+
+@media (max-width: 767px) {
+  .pillaa-contact-form {
+    padding: 14px;
+  }
+
+  .pillaa-contact-form .cf7-row {
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .pillaa-contact-form .cf7-col {
+    width: 50%;
+  }
+
+  /* Full width rows */
+  .pillaa-contact-form .cf7-col[style*="100%"] {
+    width: 100% !important;
+  }
+
+  .pillaa-contact-form textarea {
+    min-height: 60px;
+  }
+
+  .pillaa-contact-form input[type="submit"] {
+    padding: 10px;
+    font-size: 13.5px;
+  }
+}
+
+/* ==================================================
+   ECOMUS – BOTTOM HEADER MENU (FINAL CLEAN FIX)
+================================================== */
+
+/* 1️⃣ Header base */
+.header-bottom {
+  position: relative;
+  z-index: 9999 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 2️⃣ Override no-center restriction */
+.header-bottom.no-center {
+  justify-content: center !important;
+}
+
+/* 3️⃣ Header container center */
+.header-bottom .site-header__container {
+  display: flex !important;
+  justify-content: center !important;
+  position: relative;
+}
+
+/* 4️⃣ Main navigation – center align */
+.header-bottom .main-navigation.primary-navigation {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+  width: auto !important;
+}
+
+/* 5️⃣ UL menu center */
+.header-bottom .main-navigation.primary-navigation ul {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+}
+
+/* 6️⃣ Menu item spacing + anchor */
+.header-bottom .menu-item {
+  margin: 0 18px;
+  position: relative;
+}
+
+/* ==================================================
+   MENU TEXT COLOR – DARK & PREMIUM
+================================================== */
+
+.header-bottom .menu-item > a {
+  color: #222222 !important;
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 10px 0;
+  transition: color 0.2s ease;
+}
+
+.header-bottom .menu-item > a:hover,
+.header-bottom .menu-item.current-menu-item > a,
+.header-bottom .menu-item.current-menu-ancestor > a {
+  color: #000000 !important;
+}
+
+/* ==================================================
+   SUB MENU – DROPDOWN (OVERLAP FIX)
+================================================== */
+
+.header-bottom .menu-item-has-children > .sub-menu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  min-width: 220px;
+  background: #ffffff;
+  padding: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  z-index: 10000 !important;
+  display: none;
+}
+
+/* Show submenu on hover */
+.header-bottom .menu-item-has-children:hover > .sub-menu {
+  display: block;
+}
+
+/* Submenu items reset */
+.header-bottom .sub-menu li {
+  margin: 0;
+}
+
+/* Submenu links */
+.header-bottom .sub-menu li a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #222222;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Submenu hover */
+.header-bottom .sub-menu li a:hover {
+  background: #f6f7f8;
+  color: #000000;
+}
+
+/* ==================================================
+   HARD GUARANTEE CENTER (DESKTOP ONLY)
+================================================== */
+
+@media (min-width: 1024px) {
+  .header-bottom .main-navigation.primary-navigation {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+/* ==================================================
+   PRODUCT CONTENT – MENU KE NICHE RAKHO
+================================================== */
+
+.single-product .woocommerce-product-gallery,
+.single-product .product {
+  position: relative;
+  z-index: 1 !important;
+}
+
+/* =====================================
+   BLOG CONTENT – CLEAN & READABLE
+===================================== */
+
+.single-post .entry-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Headings */
+.single-post .entry-content h1 {
+  font-size: 32px;
+  line-height: 1.3;
+  margin: 28px 0 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.single-post .entry-content h2 {
+  font-size: 24px;
+  line-height: 1.35;
+  margin: 32px 0 12px;
+  font-weight: 600;
+  color: #111;
+}
+
+.single-post .entry-content h3 {
+  font-size: 19px;
+  line-height: 1.4;
+  margin: 24px 0 10px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Paragraphs */
+.single-post .entry-content p {
+  font-size: 16.5px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  color: #444;
+}
+
+/* Lists */
+.single-post .entry-content ul,
+.single-post .entry-content ol {
+  margin: 14px 0 18px 20px;
+}
+
+.single-post .entry-content li {
+  font-size: 16px;
+  line-height: 1.65;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* Remove ugly separators */
+.single-post hr {
+  display: none;
+}
+
+/* Mobile optimization */
+@media (max-width: 767px) {
+  .single-post .entry-content h1 {
+    font-size: 24px;
+  }
+
+  .single-post .entry-content h2 {
+    font-size: 20px;
+  }
+
+  .single-post .entry-content p,
+  .single-post .entry-content li {
+    font-size: 15px;
+  }
+}
+
+/* ✅ EXACT MOBILE LAYOUT (Ecomus + Shiprocket/Fastrr) */
+@media (max-width: 767px) {
+  form.cart .ecomus-product-atc-group {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  /* 1) Quantity row full width */
+  form.cart .ecomus-product-atc-group .em-product-quantity,
+  form.cart .ecomus-product-atc-group .quantity {
+    flex: 0 0 100% !important;
+    width: 53% !important;
+    order: 1 !important;
+    margin: 0 !important;
+  }
+
+  form.cart .ecomus-product-atc-group .quantity .qty,
+  form.cart .ecomus-product-atc-group .quantity input {
+    height: 44px !important;
+  }
+
+  /* 2) Add to cart wide */
+  form.cart .ecomus-product-atc-group .single_add_to_cart_button {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    order: 2 !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+  }
+
+  /* 3) Icons right */
+  form.cart .ecomus-product-atc-group .product-featured-icons--single-product,
+  form.cart .ecomus-product-atc-group .product-featured-icons {
+    flex: 0 0 auto !important;
+    order: 3 !important;
+    display: flex !important;
+    gap: 10px !important;
+    margin: 0 !important;
+  }
+
+  form.cart .ecomus-product-atc-group .product-featured-icons--single-product a,
+  form.cart .ecomus-product-atc-group .product-featured-icons a {
+    width: 44px !important;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  /* 4) BUY NOW last row full width */
+  form.cart .ecomus-product-atc-group .wc-proceed-to-checkout,
+  form.cart .ecomus-product-atc-group .wc-proceed-to-checkoutt,
+  form.cart .ecomus-product-atc-group .shiprocket-headless {
+    order: 4 !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  form.cart .ecomus-product-atc-group .shiprocket-headless .sr-headless-checkout,
+  form.cart .ecomus-product-atc-group .sr-headless-checkout {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 44px !important;
+    border-radius: 0 !important;
+    background: #0f7f07 !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+  }
+
+  .sr-powered-by {
+    display: none !important;
+  }
+}
