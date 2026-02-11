@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07090f">
+  <title>Digital Product Vault • ₹299</title>
+  <meta name="description" content="Unlock the Digital Product Vault for just ₹299. Instant access after secure PhonePe checkout.">
+  <style>
+    :root {
+      --bg: #07090f;
+      --bg-2: #0b1020;
+      --card: rgba(17, 23, 38, 0.9);
+      --text: #eef1f7;
+      --muted: #9aa4b2;
+      --accent: #ffd44d;
+      --accent-ink: #1a1a1a;
+      --border: #1a2234;
+      --glow: rgba(255, 212, 77, 0.25);
+      --max: 1120px;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(255, 212, 77, 0.12), transparent 60%),
+        radial-gradient(900px 500px at 120% 10%, rgba(255, 204, 0, 0.08), transparent 65%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 90px;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    header {
+      padding: 22px 0 10px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      font-size: 18px;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .hero {
+      padding: 26px 0 30px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      padding: 26px 20px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: -30% -40% auto auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255, 212, 77, 0.32), transparent 70%);
+      filter: blur(4px);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 9vw, 46px);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .subhead {
+      color: var(--muted);
+      margin: 0 0 18px;
+      font-size: 15px;
+      max-width: 52ch;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin: 12px 0 20px;
+    }
+
+    .price {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .price small {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .trust .pill {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .btn {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-weight: 800;
+      font-size: 16px;
+      text-decoration: none;
+      box-shadow: 0 18px 40px var(--glow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn[aria-busy="true"] { opacity: 0.85; cursor: wait; }
+
+    .btn-secondary {
+      margin-top: 10px;
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+      box-shadow: none;
+      font-weight: 700;
+    }
+
+    section {
+      padding: 26px 0;
+    }
+
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pricing {
+      border: 1px solid rgba(255, 212, 77, 0.3);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(170deg, rgba(255, 212, 77, 0.1), rgba(255, 212, 77, 0.02));
+    }
+
+    .pricing .tag {
+      display: inline-flex;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255, 212, 77, 0.18);
+      border: 1px solid rgba(255, 212, 77, 0.32);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .pricing ul {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .pricing li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .pricing li span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .cta-band {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      text-align: center;
+    }
+
+    .cta-band h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    footer {
+      padding: 28px 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .sticky-cta {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(7, 9, 15, 0.9);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      z-index: 30;
+    }
+
+    .sticky-cta .btn {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+    }
+
+    @media (min-width: 720px) {
+      body { padding-bottom: 40px; }
+      .hero-card { padding: 36px; }
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .sticky-cta { position: static; padding: 0; background: transparent; border: none; }
+      .sticky-cta .btn { margin-top: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">viyog<span>.in</span></div>
+      <div class="chip">UAT Checkout • PhonePe</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <h1>Unlock the Digital Product Vault</h1>
+          <p class="subhead">Get instant access to a curated vault of digital assets, tools, and templates that save you hours. One-time payment. Lifetime access.</p>
+          <div class="price-row">
+            <div class="price">₹299 <small>one-time</small></div>
+          </div>
+          <a class="btn" href="#" data-phonepe>
+            <span class="btn-label">Buy Now for ₹299</span>
+          </a>
+          <a class="btn btn-secondary" href="#pricing">See what you get</a>
+          <div class="trust">
+            <div class="pill">⚡ Instant delivery</div>
+            <div class="pill">🔒 Secure checkout</div>
+            <div class="pill">✅ PhonePe UAT ready</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Everything you need, in one vault</h2>
+        <p class="section-sub">Built for creators, founders, and marketers who want results without the busywork.</p>
+        <div class="grid">
+          <article class="card">
+            <h3>High-impact templates</h3>
+            <p>Landing page blocks, offers, and messaging frameworks designed to convert.</p>
+          </article>
+          <article class="card">
+            <h3>Plug-and-play systems</h3>
+            <p>Funnels, launch plans, and checklists that help you ship faster with fewer mistakes.</p>
+          </article>
+          <article class="card">
+            <h3>Actionable playbooks</h3>
+            <p>Step-by-step guides that show you what to do next — and why it works.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="container">
+        <div class="pricing">
+          <div class="tag">Best value</div>
+          <h2 class="section-title" style="margin-bottom: 4px;">Digital Product Vault</h2>
+          <p class="section-sub" style="margin-bottom: 0;">One-time payment • No subscriptions</p>
+          <div class="price-row" style="margin-top: 12px;">
+            <div class="price">₹299 <small>incl. taxes</small></div>
+          </div>
+          <ul>
+            <li><span>✔</span> Instant access after payment verification</li>
+            <li><span>✔</span> Structured for quick wins, not information overload</li>
+            <li><span>✔</span> Delivered via secure download link</li>
+          </ul>
+          <a class="btn" href="#" data-phonepe>
+            <span class="btn-label">Get Instant Access</span>
+          </a>
+          <p class="note">You will be redirected to PhonePe's secure checkout and brought back here automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta-band">
+          <h2>Ready to access the vault?</h2>
+          <p class="section-sub" style="margin: 0 0 14px;">Pay once. Unlock everything. Start using it today.</p>
+          <a class="btn" href="#" data-phonepe>
+            <span class="btn-label">Continue to PhonePe</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="sticky-cta">
+    <a class="btn" href="#" data-phonepe>
+      <span class="btn-label">Buy for ₹299 • Instant Access</span>
+    </a>
+  </div>
+
+  <footer>
+    <div class="container">© <span id="year"></span> viyog.in • Secure digital delivery</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function () {
+      const buttons = Array.from(document.querySelectorAll('[data-phonepe]'));
+      const loadingText = 'Redirecting…';
+
+      const setLoading = (btn, isLoading) => {
+        const label = btn.querySelector('.btn-label') || btn;
+        if (!btn.dataset.originalText) {
+          btn.dataset.originalText = label.textContent.trim();
+        }
+        label.textContent = isLoading ? loadingText : btn.dataset.originalText;
+        btn.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+        btn.style.pointerEvents = isLoading ? 'none' : 'auto';
+      };
+
+      const restoreAll = () => buttons.forEach((btn) => setLoading(btn, false));
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', async (event) => {
+          event.preventDefault();
+          if (btn.getAttribute('aria-busy') === 'true') return;
+
+          buttons.forEach((b) => setLoading(b, true));
+
+          try {
+            const res = await fetch('/api/create-payment.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ source: 'landing_page' })
+            });
+            const data = await res.json();
+
+            if (!res.ok || !data.ok || !data.redirectUrl) {
+              throw new Error(data.error || data.message || 'Unable to initiate payment.');
+            }
+
+            window.location.href = data.redirectUrl;
+          } catch (err) {
+            const message = err && err.message ? err.message : 'Payment could not be started. Please try again.';
+            alert(message);
+            restoreAll();
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
