@@ -1,0 +1,17 @@
+/*
+Theme Name: MeeshoMart
+Theme URI: https://example.com/meeshomart
+Author: Theme Architect
+Author URI: https://example.com
+Description: MeeshoMart is a modern, mobile-first marketplace WordPress theme optimized for WooCommerce and multi-vendor plugins.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: meeshomart
+Tags: e-commerce, custom-logo, custom-menu, featured-images, translation-ready, accessibility-ready
+*/
+
+/* Core styles are loaded from assets/css/main.css */
