@@ -1,0 +1,1 @@
+.meesho-wishlist-grid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.meesho-wishlist-grid li{background:#fff;padding:.75rem;border-radius:.6rem;display:flex;flex-direction:column;gap:.5rem}
