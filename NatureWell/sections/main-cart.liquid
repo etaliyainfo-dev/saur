@@ -1,0 +1,21 @@
+<section class="main-cart page-width">
+  <h1>Cart</h1>
+  {% if cart.item_count == 0 %}
+    <p>Your cart is empty.</p>
+  {% else %}
+    <form action="{{ routes.cart_url }}" method="post">
+      {% for item in cart.items %}
+        <article class="cart-line">
+          {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: item.product.title }}
+          <div>
+            <h2>{{ item.product.title }}</h2>
+            <p>{{ item.final_line_price | money }}</p>
+            <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+          </div>
+        </article>
+      {% endfor %}
+      <p><strong>Subtotal: {{ cart.total_price | money }}</strong></p>
+      <button class="button button--black" type="submit" name="checkout">Checkout</button>
+    </form>
+  {% endif %}
+</section>

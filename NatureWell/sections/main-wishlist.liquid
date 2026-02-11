@@ -1,0 +1,17 @@
+<section class="main-wishlist page-width">
+  <h1>Wishlist</h1>
+  <div class="wishlist-grid" data-wishlist-grid></div>
+  <template id="wishlist-item-template">
+    <article class="product-card">
+      <a data-wishlist-link>
+        <img loading="lazy" alt="">
+      </a>
+      <h3 data-wishlist-title></h3>
+      <p class="price" data-wishlist-price></p>
+      <div class="wishlist-actions">
+        <button class="button button--yellow" type="button" data-move-to-cart>Move to cart</button>
+        <button class="button button--ghost" type="button" data-remove-wishlist>Remove</button>
+      </div>
+    </article>
+  </template>
+</section>

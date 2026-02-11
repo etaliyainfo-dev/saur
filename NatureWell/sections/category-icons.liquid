@@ -1,0 +1,35 @@
+<section class="category-icons-section page-width">
+  <div class="category-icons-track" role="list">
+    {% for block in section.blocks %}
+      <a class="category-icon-item" role="listitem" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+        <span class="circle-thumb">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.label }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </span>
+        <span>{{ block.settings.label }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category icons",
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {"type":"image_picker","id":"image","label":"Image"},
+        {"type":"text","id":"label","label":"Label","default":"Category"},
+        {"type":"url","id":"link","label":"Link"}
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [{"name":"Category icons"}]
+}
+{% endschema %}

@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading": "NATURAL ENERGY BOOST FOR AN ACTIVE LIFESTYLE",
+        "text": "Discover wellness-forward products built for your daily routine and active lifestyle.",
+        "button_label": "Shop all products",
+        "button_link": ""
+      },
+      "blocks": {
+        "image_1": { "type": "image", "settings": { "alt": "Healthy lifestyle product" } },
+        "image_2": { "type": "image", "settings": { "alt": "Supplements assortment" } },
+        "image_3": { "type": "image", "settings": { "alt": "Natural ingredients" } }
+      },
+      "block_order": ["image_1", "image_2", "image_3"]
+    },
+    "category_icons": {
+      "type": "category-icons"
+    },
+    "shop_categories": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Shop By Categories",
+        "style": "category",
+        "button_label": "View all products"
+      }
+    },
+    "best_seller": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Best Seller",
+        "style": "products",
+        "columns": 4,
+        "button_label": "View All"
+      }
+    },
+    "unicity": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Unicity Best Seller",
+        "style": "products",
+        "columns": 4,
+        "button_label": "View All"
+      }
+    },
+    "watch_buy": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Watch and Buy",
+        "style": "showcase",
+        "columns": 3
+      }
+    },
+    "explore_dxn": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Explore DXN Products",
+        "style": "products",
+        "show_sale_badge": true,
+        "columns": 4
+      }
+    },
+    "renatus": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Renatus Wellness",
+        "style": "products",
+        "show_sale_badge": true,
+        "columns": 4
+      }
+    },
+    "testimonials": {
+      "type": "testimonials"
+    },
+    "icon_grid": {
+      "type": "icon-grid"
+    }
+  },
+  "order": [
+    "hero",
+    "category_icons",
+    "shop_categories",
+    "best_seller",
+    "unicity",
+    "watch_buy",
+    "explore_dxn",
+    "renatus",
+    "testimonials",
+    "icon_grid"
+  ]
+}

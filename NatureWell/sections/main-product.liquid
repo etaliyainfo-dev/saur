@@ -1,0 +1,44 @@
+<section class="main-product page-width" data-product-id="{{ product.id }}">
+  <div class="product-layout">
+    <div class="product-gallery">
+      {% for media in product.media %}
+        <div class="gallery-item">
+          {{ media | image_url: width: 900 | image_tag: loading: 'lazy', alt: media.alt | escape }}
+        </div>
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endfor %}
+    </div>
+    <div class="product-info">
+      <h1>{{ product.title }}</h1>
+      <p class="price">{{ product.price | money }}</p>
+      <p>{{ product.description | strip_html | truncatewords: 35 }}</p>
+      {% form 'product', product %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button class="button button--yellow" type="submit">Add to cart</button>
+      {% endform %}
+      <div class="delivery-block">
+        <p><strong>Delivery & returns</strong></p>
+        <p>{{ section.settings.delivery_text }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-sticky-atc">
+    <span>{{ product.price | money }}</span>
+    <button class="button button--yellow" type="button" data-sticky-add>Add to cart</button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "delivery_text",
+      "label": "Delivery text",
+      "default": "Ships in 2-4 business days. Easy 7-day returns for unopened products."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,45 @@
+<section class="hero-section">
+  <div class="page-width hero-content">
+    <h1>{{ section.settings.heading }}</h1>
+    <div class="hero-divider" aria-hidden="true"></div>
+    <p>{{ section.settings.text }}</p>
+    {% if section.settings.button_label != blank %}
+      <a class="button button--yellow" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+    {% endif %}
+    <div class="hero-collage">
+      {% for block in section.blocks %}
+        <div class="hero-image" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.alt }}
+          {% else %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"NATURAL ENERGY BOOST FOR AN ACTIVE LIFESTYLE"},
+    {"type":"textarea","id":"text","label":"Text","default":"Fuel your day with thoughtfully sourced wellness products."},
+    {"type":"text","id":"button_label","label":"Button label","default":"Shop now"},
+    {"type":"url","id":"button_link","label":"Button link"}
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {"type":"image_picker","id":"image","label":"Image"},
+        {"type":"text","id":"alt","label":"Alt text","default":"Wellness image"}
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [{"name":"Hero"}]
+}
+{% endschema %}

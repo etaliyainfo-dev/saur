@@ -1,0 +1,57 @@
+<header class="site-header" data-header>
+  <div class="announcement-bar">{{ section.settings.announcement_text }}</div>
+  <div class="header-main page-width">
+    <button class="icon-button mobile-only" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+      <span class="visually-hidden">Open navigation menu</span>
+      ☰
+    </button>
+
+    <a href="{{ routes.root_url }}" class="logo">{{ section.settings.logo_text }}</a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="header-icons">
+      <button class="icon-button" type="button" aria-label="Open search">🔍</button>
+      <a class="icon-button" href="{{ routes.account_url }}" aria-label="Account">👤</a>
+      <button class="icon-button" type="button" aria-label="Open cart" data-cart-toggle>
+        🛒
+        <span class="cart-badge" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement",
+      "default": "Free shipping on orders above $99"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "NatureWell"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu"
+    }
+  ]
+}
+{% endschema %}

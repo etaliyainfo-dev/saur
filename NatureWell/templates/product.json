@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product"
+    },
+    "related": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Related products",
+        "style": "products",
+        "columns": 4
+      }
+    }
+  },
+  "order": ["main", "related"]
+}
