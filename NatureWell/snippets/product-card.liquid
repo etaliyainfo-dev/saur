@@ -1,0 +1,19 @@
+<article class="product-card" data-product-card>
+  <button class="wishlist-button" type="button" aria-label="Add to wishlist" data-wishlist-toggle data-product-id="{{ product.id }}" data-product-title="{{ product.title | escape }}" data-product-price="{{ product.price | money | escape }}" data-product-url="{{ product.url }}" data-product-image="{{ product.featured_image | image_url: width: 500 }}">♡</button>
+  <a href="{{ product.url }}" class="product-card__media">
+    {% if show_sale_badge and product.compare_at_price > product.price %}
+      <span class="sale-badge">Sale</span>
+    {% endif %}
+    {% if product.featured_image != blank %}
+      {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title, class: 'product-card__image' }}
+    {% else %}
+      {{ 'product-4' | placeholder_svg_tag: 'placeholder-svg product-card__image' }}
+    {% endif %}
+  </a>
+  <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+  <p class="price">{{ product.price | money }}</p>
+  {% form 'product', product, class: 'quick-add-form' %}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    <button type="submit" class="button button--yellow">Add to cart</button>
+  {% endform %}
+</article>

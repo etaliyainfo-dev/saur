@@ -1,0 +1,32 @@
+<section class="testimonials">
+  <div class="page-width">
+    <h2 class="center">Testimonials</h2>
+    <div class="testimonial-slider" data-testimonial-slider>
+      {% for block in section.blocks %}
+        <article class="testimonial-card" {{ block.shopify_attributes }}>
+          <p>“{{ block.settings.quote }}”</p>
+          <strong>{{ block.settings.author }}</strong>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="testimonial-dots" data-testimonial-dots aria-label="Slider indicators"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {"type":"textarea","id":"quote","label":"Quote","default":"I love the premium quality and visible results."},
+        {"type":"text","id":"author","label":"Author","default":"Happy Customer"}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{"name":"Testimonials"}]
+}
+{% endschema %}

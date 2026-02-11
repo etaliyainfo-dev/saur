@@ -1,0 +1,41 @@
+<section class="main-collection page-width">
+  <header class="collection-head">
+    <h1>{{ collection.title }}</h1>
+    <div class="collection-controls">
+      <button type="button" class="button mobile-only" data-filter-toggle>Filters</button>
+      <label for="SortBy" class="visually-hidden">Sort by</label>
+      <select id="SortBy" data-sort-by>
+        <option value="manual">Featured</option>
+        <option value="best-selling">Best selling</option>
+        <option value="price-ascending">Price: Low to High</option>
+        <option value="price-descending">Price: High to Low</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="collection-layout">
+    <aside class="filter-drawer" data-filter-drawer aria-hidden="true">
+      <button type="button" class="icon-button" data-filter-close aria-label="Close filters">✕</button>
+      <h2>Filters</h2>
+      {% for filter in collection.filters %}
+        <details>
+          <summary>{{ filter.label }}</summary>
+          {% for value in filter.values %}
+            <label><input type="checkbox" disabled> {{ value.label }} ({{ value.count }})</label>
+          {% endfor %}
+        </details>
+      {% endfor %}
+    </aside>
+
+    <div class="product-grid columns-4">
+      {% paginate collection.products by 12 %}
+        {% for product in collection.products %}
+          {% render 'product-card', product: product, show_sale_badge: true %}
+        {% endfor %}
+        <nav class="pagination" aria-label="Pagination">
+          {{ paginate | default_pagination }}
+        </nav>
+      {% endpaginate %}
+    </div>
+  </div>
+</section>

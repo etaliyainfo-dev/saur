@@ -1,0 +1,39 @@
+<section class="icon-grid-section page-width">
+  <h2>The ULifecare Code</h2>
+  <div class="icon-grid-layout">
+    <div class="icon-grid-icons">
+      {% for block in section.blocks %}
+        <article class="icon-pill" {{ block.shopify_attributes }}>
+          <span aria-hidden="true">◍</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="promise-panel">
+      <h3>Our Promise</h3>
+      <p>{{ section.settings.promise }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Icon grid",
+  "settings": [
+    {"type":"textarea","id":"promise","label":"Promise text","default":"We commit to clean, transparent and effective wellness products for modern routines."}
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Icon item",
+      "settings": [
+        {"type":"text","id":"title","label":"Title","default":"Quality"},
+        {"type":"text","id":"text","label":"Text","default":"High standards in every product."}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{"name":"Icon grid"}]
+}
+{% endschema %}

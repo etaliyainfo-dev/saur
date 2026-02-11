@@ -1,0 +1,60 @@
+<footer class="site-footer">
+  <div class="page-width footer-grid">
+    <div>
+      <h3>About</h3>
+      <p>{{ section.settings.about_text }}</p>
+    </div>
+    <div>
+      <h3>Collections</h3>
+      <ul>
+        {% for block in section.blocks %}
+          {% if block.type == 'collection_link' %}
+            <li><a href="{{ block.settings.link }}">{{ block.settings.label }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h3>Policies</h3>
+      <ul>
+        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/policies/terms-of-service">Terms of Service</a></li>
+        <li><a href="/policies/refund-policy">Refund Policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Email signup</h3>
+      {% form 'customer' %}
+        <label for="FooterEmail" class="visually-hidden">Email</label>
+        <input id="FooterEmail" type="email" name="contact[email]" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      {% endform %}
+    </div>
+  </div>
+  <div class="footer-bottom">© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "about_text",
+      "label": "About text",
+      "default": "NatureWell curates products for natural energy and wellness-inspired lifestyles."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_link",
+      "name": "Collection link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "All Products" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}
