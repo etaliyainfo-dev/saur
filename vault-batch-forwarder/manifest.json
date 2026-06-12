@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Vault Batch Forwarder",
+  "description": "User-controlled batch forwarding assistant for owned or authorized Telegram Web messages.",
+  "version": "1.0.0",
+  "action": {
+    "default_title": "Vault Batch Forwarder",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://web.telegram.org/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.telegram.org/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
