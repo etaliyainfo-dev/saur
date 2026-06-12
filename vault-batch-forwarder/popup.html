@@ -20,18 +20,17 @@
       </section>
 
       <form id="settings-form" class="settings">
-        <label for="destination">Destination chat name</label>
+        <label for="destination">Destination note <span class="hint">(manual selection)</span></label>
         <input
           id="destination"
           name="destination"
           type="text"
-          placeholder="Exact or searchable chat name"
+          placeholder="Optional note; choose manually in Telegram"
           autocomplete="off"
-          required
         />
 
         <label for="batch-size">Batch size <span class="hint">(max 100)</span></label>
-        <input id="batch-size" name="batchSize" type="number" min="1" max="100" value="50" required />
+        <input id="batch-size" name="batchSize" type="number" min="1" max="100" value="20" required />
 
         <label for="delay-seconds">Delay between batches <span class="hint">(seconds)</span></label>
         <input id="delay-seconds" name="delaySeconds" type="number" min="1" value="15" required />

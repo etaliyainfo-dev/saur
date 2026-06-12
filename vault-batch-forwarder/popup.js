@@ -1,5 +1,5 @@
 const DEFAULT_SETTINGS = {
-  batchSize: 50,
+  batchSize: 20,
   delaySeconds: 15,
   destination: ""
 };
