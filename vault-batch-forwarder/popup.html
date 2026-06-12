@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vault Batch Forwarder</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup" aria-live="polite">
+      <header class="header">
+        <h1>Vault Batch Forwarder</h1>
+        <p class="subtitle">Manual Telegram Web migration helper</p>
+      </header>
+
+      <section class="warning" role="note">
+        <strong>Use only on owned or authorized content.</strong>
+        Respect Telegram rules, chat permissions, forwarding restrictions, and rate limits.
+        This extension does not bypass security, private restrictions, paywalls, or anti-spam systems.
+      </section>
+
+      <form id="settings-form" class="settings">
+        <label for="destination">Destination note <span class="hint">(manual selection)</span></label>
+        <input
+          id="destination"
+          name="destination"
+          type="text"
+          placeholder="Optional note; choose manually in Telegram"
+          autocomplete="off"
+        />
+
+        <label for="batch-size">Batch size <span class="hint">(max 100)</span></label>
+        <input id="batch-size" name="batchSize" type="number" min="1" max="100" value="20" required />
+
+        <label for="delay-seconds">Delay between batches <span class="hint">(seconds)</span></label>
+        <input id="delay-seconds" name="delaySeconds" type="number" min="1" value="15" required />
+      </form>
+
+      <section class="controls" aria-label="Forwarding controls">
+        <button id="start" class="primary" type="button">Start</button>
+        <button id="pause" type="button">Pause</button>
+        <button id="resume" type="button">Resume</button>
+        <button id="stop" class="danger" type="button">Stop</button>
+      </section>
+
+      <section class="status-panel">
+        <h2>Status</h2>
+        <dl>
+          <div>
+            <dt>State</dt>
+            <dd id="state">Idle</dd>
+          </div>
+          <div>
+            <dt>Selected</dt>
+            <dd id="selected-count">0</dd>
+          </div>
+          <div>
+            <dt>Batch</dt>
+            <dd id="current-batch">0</dd>
+          </div>
+          <div>
+            <dt>Errors</dt>
+            <dd id="errors">0</dd>
+          </div>
+        </dl>
+        <p id="message" class="message">Open Telegram Web, choose a source chat, then click Start.</p>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f9fc;
+  --panel: #ffffff;
+  --text: #18202a;
+  --muted: #687385;
+  --primary: #1f8bff;
+  --primary-dark: #086bd6;
+  --danger: #c83232;
+  --danger-dark: #a91d1d;
+  --border: #d8e0ea;
+  --warning-bg: #fff4d9;
+  --warning-text: #5a3b00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121821;
+    --panel: #1b2430;
+    --text: #edf3fb;
+    --muted: #aeb8c7;
+    --border: #354254;
+    --warning-bg: #3d2c09;
+    --warning-text: #ffe2a1;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 360px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.popup {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.warning,
+.status-panel {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--panel);
+}
+
+.warning {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.settings {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-weight: 650;
+}
+
+.hint {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px;
+  background: var(--panel);
+  color: var(--text);
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 12px;
+  background: #dfe7f1;
+  color: #142033;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.danger:hover:not(:disabled) {
+  background: var(--danger-dark);
+}
+
+.status-panel h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+dl div {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px;
+}
+
+dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.message {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
