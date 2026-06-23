@@ -1,0 +1,2 @@
+<?php
+defined('ABSPATH')||exit; class CFP_Webhook_Logger{public function log(int $id,string $status,$res):void{global $wpdb; $wpdb->insert(CFP_Database::table('webhook_logs'),array('status'=>$status,'event_type'=>'webhook','meta'=>wp_json_encode(array('webhook_id'=>$id,'response'=>is_wp_error($res)?$res->get_error_message():wp_remote_retrieve_response_code($res))),'created_at'=>current_time('mysql')));}}

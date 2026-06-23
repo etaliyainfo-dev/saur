@@ -1,0 +1,3 @@
+<?php
+defined( 'ABSPATH' ) || exit;
+class CFP_Security { public static function can_manage(): bool { return current_user_can( 'manage_woocommerce' ); } public static function verify_admin( string $action ): void { if ( ! self::can_manage() || ! check_admin_referer( $action ) ) { wp_die( esc_html__( 'Security check failed.', 'conversionflow-pro' ), 403 ); } } public static function token( array $data ): string { return hash_hmac( 'sha256', wp_json_encode( $data ), wp_salt( 'auth' ) ); } public static function valid_url( string $url ): bool { return (bool) wp_http_validate_url( esc_url_raw( $url ) ); } }
