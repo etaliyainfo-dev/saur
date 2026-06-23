@@ -1,0 +1,2 @@
+<?php
+defined('ABSPATH')||exit; class CFP_Automation_Cron{public function hooks():void{add_action('cfp_process_automation_queue',array($this,'process')); add_filter('cron_schedules',array($this,'schedule')); add_action('cfp_event_tracked',array($this,'event'),10,2);} public function schedule(array $s):array{$s['minute']=array('interval'=>60,'display'=>'Every minute'); return $s;} public function process():void{} public function event(string $event,array $meta):void{(new CFP_Automation_Engine())->trigger($event,array_merge($meta,array('event'=>$event)));}}

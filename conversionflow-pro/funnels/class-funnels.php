@@ -1,0 +1,3 @@
+<?php
+defined( 'ABSPATH' ) || exit;
+class CFP_Funnels { public function all(): array { global $wpdb; return $wpdb->get_results( "SELECT * FROM " . CFP_Database::table('funnels') . " ORDER BY created_at DESC LIMIT 200", ARRAY_A ) ?: array(); } public function create( string $name, string $type, array $steps ): int { global $wpdb; $now=current_time('mysql'); $wpdb->insert(CFP_Database::table('funnels'),array('name'=>sanitize_text_field($name),'type'=>sanitize_key($type),'status'=>'active','settings'=>'{}','created_at'=>$now,'updated_at'=>$now)); $fid=(int)$wpdb->insert_id; (new CFP_Steps())->create_pages($fid,$name,$steps); do_action('cfp_funnel_created',$fid); return $fid; } }

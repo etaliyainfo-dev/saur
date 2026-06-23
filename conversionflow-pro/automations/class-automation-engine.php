@@ -1,0 +1,2 @@
+<?php
+defined('ABSPATH')||exit; class CFP_Automation_Engine{public function trigger(string $event,array $ctx=array()):void{global $wpdb; $rows=$wpdb->get_results($wpdb->prepare("SELECT * FROM ".CFP_Database::table('automations')." WHERE status=%s",'active'),ARRAY_A); foreach($rows as $row){$cfg=json_decode($row['config']?:'{}',true); if(($cfg['event']??'')===$event && (new CFP_Automation_Rules())->matches($cfg['conditions']??array(),$ctx)){(new CFP_Automation_Actions())->run($cfg['actions']??array(),$ctx,(int)$row['id']);}}}}
