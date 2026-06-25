@@ -51,10 +51,9 @@ This personal/local feature reads only visible text from the active `https://ads
 1. Open Meta Ads Manager and log in.
 2. Manually open the account switcher dropdown in Ads Manager.
 3. Open this extension popup.
-4. Optionally enable **Auto scan all visible portfolios**. This experimental option clicks visible portfolio rows one by one, waits briefly, and reads the accounts Meta renders for each portfolio.
-5. Click **Scan Ads Manager Dropdown**.
-6. Review **Discovered Accounts**, warnings, counts, and grouped portfolio results.
-7. Select new accounts and click **Save Selected Accounts**. Already saved accounts are disabled and marked **Saved**.
+4. Click **Scan selected portfolio** for the safest mode, or click **Auto scan visible portfolios** to scan multiple visible portfolios. Auto scan is experimental: it clicks visible portfolio rows one by one, waits for the right-side Ad Accounts panel heading to match, and then reads the accounts Meta renders for that portfolio.
+5. Review **Discovered Accounts**, warnings, counts, and grouped portfolio results.
+6. Select new accounts and click **Save Selected Accounts**. Already saved accounts are disabled and marked **Saved**.
 
 If Meta only renders accounts for the selected portfolio, the extension shows a warning that business mapping may be approximate.
 
