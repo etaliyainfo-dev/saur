@@ -145,22 +145,41 @@
     return beforeAd.find((line) => line && !/\b\d+\s+ad accounts?\b/i.test(line)) || '';
   }
 
-  function extractAccountsFromPanel(panel) {
+
+  function cleanAccountName(rawName, businessName = '') {
+    let name = clean(rawName)
+      .replace(/\bAd account ID\s*:?\s*(act_)?[0-9\s-]*/ig, '')
+      .replace(/\b(New|Saved|Current|Selected)\b/ig, '')
+      .replace(/^[•\-–—|]+|[•\-–—|]+$/g, '')
+      .trim();
+    if (businessName && name.endsWith(`• ${businessName}`)) name = name.slice(0, -(`• ${businessName}`).length).trim();
+    return name;
+  }
+
+  function extractAccountsFromPanel(panel, businessName = '') {
     const lines = visibleLines(panel);
     const adStart = lines.findIndex((line) => /^ad accounts$/i.test(line));
     const slice = adStart >= 0 ? lines.slice(adStart + 1) : lines;
     const accounts = [];
     for (let i = 0; i < slice.length; i += 1) {
-      const joined = `${slice[i]} ${slice[i + 1] || ''}`;
+      const currentLine = slice[i];
+      const nextLine = slice[i + 1] || '';
+      const joined = `${currentLine} ${nextLine}`;
       if (!/ad account id\s*:/i.test(joined)) continue;
       const accountId = normalizeId(joined);
       if (!accountId) continue;
       let name = '';
-      for (let j = i - 1; j >= Math.max(0, i - 5); j -= 1) {
-        const candidate = slice[j];
-        if (!candidate || /^ad accounts$/i.test(candidate) || /ad account id\s*:/i.test(candidate) || /^\d+$/.test(candidate) || /\b\d+\s+ad accounts?\b/i.test(candidate)) continue;
-        name = candidate;
-        break;
+      const inlineName = currentLine.split(/ad account id\s*:/i)[0];
+      if (inlineName && cleanAccountName(inlineName, businessName)) {
+        name = cleanAccountName(inlineName, businessName);
+      }
+      if (!name) {
+        for (let j = i - 1; j >= Math.max(0, i - 5); j -= 1) {
+          const candidate = cleanAccountName(slice[j], businessName);
+          if (!candidate || /^ad accounts$/i.test(candidate) || /ad account id\s*:/i.test(candidate) || /^\d+$/.test(candidate) || /\b\d+\s+ad accounts?\b/i.test(candidate)) continue;
+          name = candidate;
+          break;
+        }
       }
       accounts.push({ name: name || `Ad Account ${accountId}`, accountId, isSelected: /selected|current/i.test(`${slice[i - 2] || ''} ${slice[i - 1] || ''} ${slice[i]} ${slice[i + 1] || ''}`) });
     }
@@ -189,9 +208,9 @@
     const selected = rows.find((row) => row.isSelected) || rows[0];
     const panel = findAdAccountsPanel(root);
     const heading = detectPanelHeading(panel);
-    const portfolioName = selected?.name || heading || 'Selected Business Portfolio';
+    const portfolioName = heading || selected?.name || 'Selected Business Portfolio';
     const accountCountText = selected?.accountCountText || accountCountFromText(visibleText(panel));
-    const accounts = extractAccountsFromPanel(panel);
+    const accounts = extractAccountsFromPanel(panel, heading || selected?.name || '');
     console.log('[Meta Ads Switcher] Panel heading detected:', heading);
     console.log('[Meta Ads Switcher] Accounts found:', accounts.length);
     const warnings = [];
@@ -228,7 +247,7 @@
           warnings.push(reason);
           continue;
         }
-        const accounts = extractAccountsFromPanel(match.panel);
+        const accounts = extractAccountsFromPanel(match.panel, row.name);
         console.log('[Meta Ads Switcher] Accounts found:', accounts.length);
         businesses.push({ name: row.name, accountCountText: row.accountCountText, isSelected: row.name === original.name, accounts });
       } catch (error) {
