@@ -11,6 +11,7 @@ A production-ready Chrome/Edge Manifest V3 extension for saving, searching, favo
 - Provides a full options page for account management, CSV import, CSV export, JSON export, and clearing data.
 - Requires no backend, no external CDN, no paid API, and no Meta API approval.
 - Uses text-based SVG placeholder icons so the source can be reviewed in GitHub/PR tools without binary preview issues.
+- Can scan the visible Meta Ads Manager account switcher dropdown locally and save selected discovered accounts without the Meta API.
 
 ## Install locally
 
@@ -42,6 +43,20 @@ Run this from the repository root:
 ```
 
 It creates `meta-ads-account-switcher.zip`, which can be shared internally or uploaded as the extension package.
+
+## Scan Ads Manager dropdown
+
+This personal/local feature reads only visible text from the active `https://adsmanager.facebook.com/` tab. It does not use the Meta API, access tokens, a backend, or external servers.
+
+1. Open Meta Ads Manager and log in.
+2. Manually open the account switcher dropdown in Ads Manager.
+3. Open this extension popup.
+4. Optionally enable **Auto scan all visible portfolios**. This experimental option clicks visible portfolio rows one by one, waits briefly, and reads the accounts Meta renders for each portfolio.
+5. Click **Scan Ads Manager Dropdown**.
+6. Review **Discovered Accounts**, warnings, counts, and grouped portfolio results.
+7. Select new accounts and click **Save Selected Accounts**. Already saved accounts are disabled and marked **Saved**.
+
+If Meta only renders accounts for the selected portfolio, the extension shows a warning that business mapping may be approximate.
 
 ## Add an account
 
@@ -87,6 +102,7 @@ When possible, the shortcut opens the popup. If the browser does not allow openi
 ## Limitations
 
 - The extension does not validate account IDs with Meta; it only validates that an ID contains digits and removes an optional `act_` prefix.
+- Dropdown scanning depends on visible Meta Ads Manager text and may need updates if Meta changes the UI wording or structure.
 - `chrome.storage.sync` has browser sync quota limits, so very large notes or very large account lists may hit storage limits.
 - Opening Ads Manager still requires that you are logged into a Meta account with access to the selected ad account.
 

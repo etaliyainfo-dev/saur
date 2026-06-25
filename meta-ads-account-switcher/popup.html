@@ -1,1 +1,42 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Meta Ads Switcher</title><link rel="stylesheet" href="popup.css"></head><body><main class="app"><header class="top"><div><p class="eyebrow">Ads Manager</p><h1>Meta Ads Switcher</h1></div><button id="optionsBtn" class="icon-btn" title="Manage Accounts">⚙</button></header><section class="toolbar"><input id="searchInput" type="search" placeholder="Search name, ID, business, status…" autocomplete="off"></section><div id="message" class="message" hidden></div><section id="emptyState" class="empty" hidden><div class="empty-icon">M</div><h2>No accounts yet</h2><p>Add your first Meta Ads account to open it in one click.</p><button id="emptyAddBtn" class="primary">Add Account</button></section><section id="content"><div class="section"><h2>Favorites</h2><div id="favoritesList" class="list"></div></div><div class="section"><h2>Recent Accounts</h2><div id="recentList" class="list"></div></div><div class="section"><h2>All Accounts</h2><div id="accountsList" class="list"></div></div></section><footer><button id="addBtn" class="primary">+ Add Account</button><button id="manageBtn" class="secondary">Manage Accounts</button><button id="importExportBtn" class="secondary">Import/Export</button></footer></main><dialog id="accountDialog"><form id="accountForm" method="dialog"><h2 id="dialogTitle">Add Account</h2><input type="hidden" id="editingId"><label>Name *<input id="nameInput" required maxlength="120"></label><label>Account ID *<input id="accountIdInput" required placeholder="557805135391043 or act_557805135391043"></label><label>Business name<input id="businessInput" maxlength="120"></label><label>Status / tag<input id="statusInput" maxlength="60" placeholder="Active, Paused, Client…"></label><label>Notes<textarea id="notesInput" rows="3" maxlength="1000"></textarea></label><label class="check"><input id="favoriteInput" type="checkbox"> Favorite</label><p id="formError" class="error" hidden></p><menu><button type="button" id="cancelDialog" class="secondary">Cancel</button><button type="submit" class="primary">Save Account</button></menu></form></dialog><script src="popup.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Meta Ads Switcher</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div><p class="eyebrow">Ads Manager</p><h1>Meta Ads Switcher</h1></div>
+      <button id="optionsBtn" class="icon-btn" title="Manage Accounts">⚙</button>
+    </header>
+    <section class="toolbar"><input id="searchInput" type="search" placeholder="Search name, ID, business, status…" autocomplete="off"></section>
+    <div id="message" class="message" hidden></div>
+    <section class="scan-panel">
+      <button id="scanBtn" class="primary full">Scan Ads Manager Dropdown</button>
+      <label class="check muted"><input id="autoScanInput" type="checkbox"> Auto scan all visible portfolios</label>
+      <p class="hint">Open Ads Manager's account switcher dropdown first, then scan.</p>
+    </section>
+    <section id="emptyState" class="empty" hidden><div class="empty-icon">M</div><h2>No accounts yet</h2><p>Add your first Meta Ads account or scan the open Ads Manager dropdown.</p><button id="emptyAddBtn" class="primary">Add Account</button></section>
+    <section id="content"><div class="section"><h2>Favorites</h2><div id="favoritesList" class="list"></div></div><div class="section"><h2>Recent Accounts</h2><div id="recentList" class="list"></div></div><div class="section"><h2>All Accounts</h2><div id="accountsList" class="list"></div></div></section>
+    <footer><button id="addBtn" class="primary">+ Add Account</button><button id="manageBtn" class="secondary">Manage Accounts</button><button id="importExportBtn" class="secondary">Import/Export</button></footer>
+  </main>
+
+  <dialog id="accountDialog"><form id="accountForm" method="dialog"><h2 id="dialogTitle">Add Account</h2><input type="hidden" id="editingId"><label>Name *<input id="nameInput" required maxlength="120"></label><label>Account ID *<input id="accountIdInput" required placeholder="557805135391043 or act_557805135391043"></label><label>Business name<input id="businessInput" maxlength="120"></label><label>Status / tag<input id="statusInput" maxlength="60" placeholder="Active, Paused, Client…"></label><label>Notes<textarea id="notesInput" rows="3" maxlength="1000"></textarea></label><label class="check"><input id="favoriteInput" type="checkbox"> Favorite</label><p id="formError" class="error" hidden></p><menu><button type="button" id="cancelDialog" class="secondary">Cancel</button><button type="submit" class="primary">Save Account</button></menu></form></dialog>
+
+  <dialog id="scanDialog" class="wide-dialog">
+    <form method="dialog" id="scanForm">
+      <div class="dialog-head"><div><p class="eyebrow">Ads Manager Scan</p><h2>Discovered Accounts</h2></div><button type="button" id="closeScanBtn" class="icon-btn">×</button></div>
+      <div id="scanNotice" class="message" hidden></div>
+      <div id="scanStats" class="stats"></div>
+      <div class="scan-actions"><button type="button" id="selectAllNewBtn" class="secondary">Select all unsaved</button><button type="button" id="rescanBtn" class="secondary">Rescan</button></div>
+      <div id="scanResults" class="scan-results"></div>
+      <p id="scanSaveError" class="error" hidden></p>
+      <menu><button type="button" id="cancelScanBtn" class="secondary">Cancel</button><button type="button" id="saveScannedBtn" class="primary">Save Selected Accounts</button></menu>
+    </form>
+  </dialog>
+  <script src="popup.js"></script>
+</body>
+</html>
