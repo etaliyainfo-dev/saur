@@ -1,0 +1,605 @@
+const STORAGE_DEFAULT = {
+  accounts: [],
+  recentAccountIds: [],
+  currentAccountId: "",
+  currentOpenedAt: "",
+  settings: { openInBackground: true, theme: "light" },
+};
+const ADS_URL =
+  "https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=";
+const $ = (id) => document.getElementById(id);
+let state = structuredClone(STORAGE_DEFAULT);
+let query = "";
+let lastScan = null;
+let pendingDeleteId = "";
+
+async function getStorageData() {
+  try {
+    const data = {
+      ...STORAGE_DEFAULT,
+      ...(await chrome.storage.sync.get(STORAGE_DEFAULT)),
+    };
+    data.settings = { ...STORAGE_DEFAULT.settings, ...(data.settings || {}) };
+    data.recentAccountIds = [...new Set(data.recentAccountIds || [])].slice(
+      0,
+      5,
+    );
+    return data;
+  } catch (e) {
+    showMessage("Could not read storage.");
+    return structuredClone(STORAGE_DEFAULT);
+  }
+}
+async function saveStorageData(data) {
+  try {
+    await chrome.storage.sync.set(data);
+    return true;
+  } catch (e) {
+    showMessage("Could not save changes.");
+    return false;
+  }
+}
+function normalizeAccountId(v) {
+  return String(v || "")
+    .trim()
+    .replace(/^act_/i, "")
+    .replace(/\D/g, "");
+}
+function validateAccount(a, existing, editingId) {
+  const errors = [];
+  if (!a.name.trim()) errors.push("Account name cannot be empty.");
+  if (!normalizeAccountId(a.accountId))
+    errors.push("Account ID cannot be empty.");
+  const clean = normalizeAccountId(a.accountId);
+  if (
+    clean &&
+    existing.some((x) => x.accountId === clean && x.id !== editingId)
+  )
+    errors.push("This account ID already exists.");
+  return errors;
+}
+function showMessage(t) {
+  const el = $("message");
+  el.textContent = t;
+  el.hidden = false;
+  setTimeout(() => (el.hidden = true), 4500);
+}
+function uuid() {
+  return crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+function relativeTime(iso) {
+  if (!iso) return "Not opened yet";
+  const diff = Math.max(0, Date.now() - new Date(iso).getTime());
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "Just now";
+  if (mins < 60) return `${mins} minute${mins === 1 ? "" : "s"} ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs} hour${hrs === 1 ? "" : "s"} ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days} day${days === 1 ? "" : "s"} ago`;
+}
+function applyTheme() {
+  document.body.classList.toggle("dark", state.settings?.theme === "dark");
+  $("themeToggleBtn").textContent =
+    state.settings?.theme === "dark" ? "☀ Theme: Dark" : "🌙 Theme: Light";
+}
+async function openAdsAccount(account) {
+  const accountObj =
+    typeof account === "string"
+      ? state.accounts.find((a) => a.accountId === account) || {
+          accountId: account,
+          name: "Ad account",
+        }
+      : account;
+  const active = !state.settings?.openInBackground;
+  await chrome.tabs.create({ url: ADS_URL + accountObj.accountId, active });
+  state.currentAccountId = accountObj.accountId;
+  state.currentOpenedAt = new Date().toISOString();
+  await updateRecentAccounts(accountObj.accountId, false);
+  await saveStorageData(state);
+  renderAccounts();
+  showMessage(`Opened ${accountObj.name || "account"} in new tab`);
+}
+async function updateRecentAccounts(accountId, persist = true) {
+  state.recentAccountIds = [
+    accountId,
+    ...(state.recentAccountIds || []).filter((id) => id !== accountId),
+  ].slice(0, 5);
+  if (persist) await saveStorageData(state);
+}
+async function toggleFavorite(id) {
+  const a = state.accounts.find((x) => x.id === id);
+  if (!a) return;
+  a.isFavorite = !a.isFavorite;
+  a.updatedAt = new Date().toISOString();
+  await saveStorageData(state);
+  renderAccounts();
+}
+function requestDeleteAccount(id) {
+  const a = state.accounts.find((x) => x.id === id);
+  if (!a) return;
+  pendingDeleteId = id;
+  $("deleteAccountName").textContent = a.name;
+  $("deleteDialog").showModal();
+}
+async function deleteAccount(id) {
+  const a = state.accounts.find((x) => x.id === id);
+  if (!a) return;
+  state.accounts = state.accounts.filter((x) => x.id !== id);
+  state.recentAccountIds = (state.recentAccountIds || [])
+    .filter((x) => x !== a.accountId)
+    .slice(0, 5);
+  if (state.currentAccountId === a.accountId) {
+    state.currentAccountId = "";
+    state.currentOpenedAt = "";
+  }
+  await saveStorageData(state);
+  renderAccounts();
+}
+function filteredAccounts() {
+  const q = query.toLowerCase();
+  return state.accounts
+    .filter((a) =>
+      [a.name, a.accountId, a.businessName, a.status].some((v) =>
+        String(v || "")
+          .toLowerCase()
+          .includes(q),
+      ),
+    )
+    .sort(
+      (a, b) => b.isFavorite - a.isFavorite || a.name.localeCompare(b.name),
+    );
+}
+function button(text, cls, fn, disabled = false) {
+  const b = document.createElement("button");
+  b.className = cls;
+  b.textContent = text;
+  b.disabled = disabled;
+  b.addEventListener("click", (e) => {
+    e.stopPropagation();
+    fn();
+  });
+  return b;
+}
+function makeCard(a) {
+  const isActive = state.currentAccountId === a.accountId;
+  const card = document.createElement("article");
+  card.className = `card${isActive ? " active" : ""}`;
+  card.tabIndex = 0;
+  card.addEventListener("click", () => !isActive && openAdsAccount(a));
+  card.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !isActive) openAdsAccount(a);
+  });
+  const top = document.createElement("div");
+  top.className = "card-top";
+  const title = document.createElement("div");
+  const name = document.createElement("div");
+  name.className = "name";
+  name.textContent = `${a.isFavorite ? "⭐ " : ""}${a.name}`;
+  title.append(name);
+  if (isActive) {
+    const badge = document.createElement("span");
+    badge.className = "active-badge";
+    badge.textContent = "● ACTIVE";
+    title.append(badge);
+  }
+  const star = document.createElement("button");
+  star.className = "tiny star";
+  star.textContent = a.isFavorite ? "★" : "☆";
+  star.title = "Toggle favorite";
+  star.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleFavorite(a.id);
+  });
+  top.append(title, star);
+  const meta = document.createElement("div");
+  meta.className = "meta-grid";
+  [
+    ["ID", a.accountId],
+    ["Card", a.businessName || "—"],
+  ].forEach(([label, value]) => {
+    const l = document.createElement("span");
+    l.textContent = label;
+    const v = document.createElement("strong");
+    v.textContent = value;
+    meta.append(l, v);
+  });
+  const actions = document.createElement("div");
+  actions.className = "card-actions";
+  actions.append(
+    isActive
+      ? button("Opened", "opened", () => {}, true)
+      : button("🟢 Open", "open", () => openAdsAccount(a)),
+    button("✏ Edit", "edit", () => showDialog(a)),
+    button("🗑 Delete", "danger", () => requestDeleteAccount(a.id)),
+  );
+  card.append(top, meta);
+  card.append(actions);
+  return card;
+}
+function renderList(el, accounts, emptyText) {
+  el.replaceChildren();
+  if (!accounts.length) {
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = emptyText;
+    el.append(p);
+    return;
+  }
+  accounts.forEach((a) => el.append(makeCard(a)));
+}
+function renderCurrentAccount() {
+  const container = $("currentAccountCard");
+  container.replaceChildren();
+  const account = state.accounts.find(
+    (a) => a.accountId === state.currentAccountId,
+  );
+  if (!account) {
+    container.className = "current-card empty-current";
+    const p = document.createElement("p");
+    p.textContent = "No account opened from this extension yet.";
+    container.append(p);
+    return;
+  }
+  container.className = "current-card";
+  const name = document.createElement("div");
+  name.className = "current-name";
+  name.textContent = account.name;
+  const badge = document.createElement("span");
+  badge.className = "active-badge";
+  badge.textContent = "● Active";
+  const grid = document.createElement("div");
+  grid.className = "current-grid";
+  [
+    ["ID", account.accountId],
+    ["Status", account.status || "Active"],
+    ["Card", account.businessName || "—"],
+    ["Last Opened", relativeTime(state.currentOpenedAt)],
+  ].forEach(([label, value]) => {
+    const box = document.createElement("div");
+    const l = document.createElement("div");
+    l.className = "field-label";
+    l.textContent = label;
+    const v = document.createElement("div");
+    v.className = "field-value";
+    v.textContent = value;
+    box.append(l, v);
+    grid.append(box);
+  });
+  const open = button("Open in Facebook", "open full", () =>
+    openAdsAccount(account),
+  );
+  container.append(name, badge, grid, open);
+}
+function renderStats() {
+  const saved = state.accounts.length;
+  const recent = (state.recentAccountIds || [])
+    .filter((id) => state.accounts.some((a) => a.accountId === id))
+    .slice(0, 5).length;
+  const fav = state.accounts.filter((a) => a.isFavorite).length;
+  const opened = state.currentAccountId ? 1 : 0;
+  $("headerSubtext").textContent = `${saved} saved accounts`;
+  const stats = $("statsRow");
+  stats.replaceChildren(
+    ...[
+      ["Saved", saved],
+      ["Recent", recent],
+      ["Favorites", fav],
+      ["Opened", opened],
+    ].map(([label, value]) => {
+      const box = document.createElement("div");
+      box.className = "stat";
+      const strong = document.createElement("strong");
+      strong.textContent = value;
+      const span = document.createElement("span");
+      span.textContent = label;
+      box.append(strong, span);
+      return box;
+    }),
+  );
+}
+function renderAccounts() {
+  state.recentAccountIds = (state.recentAccountIds || [])
+    .filter((id) => state.accounts.some((a) => a.accountId === id))
+    .slice(0, 5);
+  const all = filteredAccounts();
+  $("emptyState").hidden = state.accounts.length > 0;
+  $("content").hidden = state.accounts.length === 0;
+  renderCurrentAccount();
+  renderStats();
+  renderList(
+    $("favoritesList"),
+    all.filter((a) => a.isFavorite),
+    "No favorite accounts yet.",
+  );
+  const recent = state.recentAccountIds
+    .map((id) => state.accounts.find((a) => a.accountId === id))
+    .filter(Boolean)
+    .filter((a) => a.accountId !== state.currentAccountId)
+    .slice(0, 5);
+  renderList($("recentList"), recent, "No recent accounts yet.");
+  renderList($("accountsList"), all, "No matching saved accounts.");
+}
+function showDialog(a) {
+  $("accountForm").reset();
+  $("formError").hidden = true;
+  $("editingId").value = a?.id || "";
+  $("dialogTitle").textContent = a ? "Edit Account" : "Add Account";
+  $("nameInput").value = a?.name || "";
+  $("accountIdInput").value = a?.accountId || "";
+  $("businessInput").value = a?.businessName || "";
+  $("statusInput").value = a?.status || "";
+  $("notesInput").value = a?.notes || "";
+  $("favoriteInput").checked = !!a?.isFavorite;
+  $("accountDialog").showModal();
+}
+async function getActiveAdsManagerTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (
+    !tab?.id ||
+    !/^https:\/\/adsmanager\.facebook\.com\//.test(tab.url || "")
+  ) {
+    throw new Error("Open Meta Ads Manager in the active tab first.");
+  }
+  return tab;
+}
+async function scanAdsManagerDropdown(mode = "selected") {
+  const scanButton = mode === "auto" ? $("scanAllBtn") : $("scanSelectedBtn");
+  const originalText = scanButton.textContent;
+  scanButton.disabled = true;
+  scanButton.textContent = "Scanning…";
+  try {
+    const tab = await getActiveAdsManagerTab();
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["scanner.js"],
+    });
+    const result = await chrome.tabs.sendMessage(tab.id, {
+      type: "META_ADS_SCAN_DROPDOWN",
+      mode,
+    });
+    if (!result?.success) {
+      throw new Error(
+        result?.error ||
+          "Open the Meta Ads account switcher dropdown first, then scan again.",
+      );
+    }
+    lastScan = result;
+    renderScanResults(result);
+    $("scanDialog").showModal();
+  } catch (error) {
+    showMessage(error.message || "Could not scan Ads Manager dropdown.");
+  } finally {
+    scanButton.disabled = false;
+    scanButton.textContent = originalText;
+  }
+}
+function scanCounts(result) {
+  const businesses = result.businesses || [];
+  const flat = businesses.flatMap((b) =>
+    (b.accounts || []).map((a) => ({ business: b, account: a })),
+  );
+  const saved = new Set(state.accounts.map((a) => a.accountId));
+  const already = flat.filter((x) =>
+    saved.has(normalizeAccountId(x.account.accountId)),
+  ).length;
+  return {
+    businesses: businesses.length,
+    accounts: flat.length,
+    already,
+    newAccounts: flat.length - already,
+  };
+}
+function renderStat(label, value) {
+  const box = document.createElement("div");
+  box.className = "stat";
+  const strong = document.createElement("strong");
+  strong.textContent = String(value);
+  const span = document.createElement("span");
+  span.textContent = label;
+  box.append(strong, span);
+  return box;
+}
+function renderScanResults(result) {
+  const warnings = result.warnings || [];
+  $("scanNotice").hidden = warnings.length === 0;
+  $("scanNotice").textContent = warnings.join("\n");
+  const counts = scanCounts(result);
+  $("scanStats").replaceChildren(
+    renderStat("Businesses", counts.businesses),
+    renderStat("Accounts", counts.accounts),
+    renderStat("Saved", counts.already),
+    renderStat("New", counts.newAccounts),
+  );
+  const saved = new Set(state.accounts.map((a) => a.accountId));
+  const wrap = $("scanResults");
+  wrap.replaceChildren();
+  (result.businesses || []).forEach((business, businessIndex) => {
+    const group = document.createElement("section");
+    group.className = "business-group";
+    const head = document.createElement("div");
+    head.className = "business-head";
+    head.textContent = `${business.name || "Unknown Business Portfolio"}${business.accountCountText ? " • " + business.accountCountText : ""}${business.isSelected ? " • selected" : ""}`;
+    group.append(head);
+    (business.accounts || []).forEach((account, accountIndex) => {
+      const clean = normalizeAccountId(account.accountId);
+      const isSaved = saved.has(clean);
+      const row = document.createElement("label");
+      row.className = "account-row";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "scan-check";
+      checkbox.dataset.businessIndex = String(businessIndex);
+      checkbox.dataset.accountIndex = String(accountIndex);
+      checkbox.disabled = isSaved;
+      checkbox.checked = !isSaved;
+      const info = document.createElement("div");
+      const name = document.createElement("div");
+      name.className = "account-name";
+      name.textContent = account.name || "Unnamed ad account";
+      const meta = document.createElement("div");
+      meta.className = "muted";
+      meta.textContent = `Ad account ID: ${clean || "Unknown"}${business.name ? " • " + business.name : ""}`;
+      info.append(name, meta);
+      const badge = document.createElement("span");
+      badge.className = isSaved ? "saved-badge" : "badge";
+      badge.textContent = isSaved ? "Saved" : "New";
+      row.append(checkbox, info, badge);
+      group.append(row);
+    });
+    wrap.append(group);
+  });
+}
+function selectAllUnsaved() {
+  document.querySelectorAll(".scan-check:not(:disabled)").forEach((input) => {
+    input.checked = true;
+  });
+}
+function unselectAllScanned() {
+  document.querySelectorAll(".scan-check:not(:disabled)").forEach((input) => {
+    input.checked = false;
+  });
+}
+async function saveSelectedScannedAccounts() {
+  if (!lastScan) return;
+  const selected = [
+    ...document.querySelectorAll(".scan-check:checked:not(:disabled)"),
+  ];
+  if (!selected.length) {
+    $("scanSaveError").textContent = "Select at least one new account to save.";
+    $("scanSaveError").hidden = false;
+    return;
+  }
+  const existing = new Set(state.accounts.map((a) => a.accountId));
+  const now = new Date().toISOString();
+  let added = 0;
+  for (const input of selected) {
+    const business = lastScan.businesses[Number(input.dataset.businessIndex)];
+    const account = business?.accounts?.[Number(input.dataset.accountIndex)];
+    const clean = normalizeAccountId(account?.accountId);
+    if (!clean || existing.has(clean)) continue;
+    state.accounts.push({
+      id: uuid(),
+      name: (account.name || `Ad Account ${clean}`).trim(),
+      accountId: clean,
+      businessName: (business.name || "").trim(),
+      status: account.isSelected ? "Selected" : "",
+      notes: "",
+      isFavorite: false,
+      source: "ads_manager_scan",
+      scannedAt: now,
+      createdAt: now,
+      updatedAt: now,
+    });
+    existing.add(clean);
+    added++;
+  }
+  await saveStorageData(state);
+  $("scanDialog").close();
+  renderAccounts();
+  showMessage(
+    `Saved ${added} account${added === 1 ? "" : "s"} from Ads Manager scan.`,
+  );
+}
+function exportJSON() {
+  const url = URL.createObjectURL(
+    new Blob([JSON.stringify(state, null, 2)], { type: "application/json" }),
+  );
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "meta-ads-accounts.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+$("accountForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const editingId = $("editingId").value;
+  const data = {
+    name: $("nameInput").value.trim(),
+    accountId: normalizeAccountId($("accountIdInput").value),
+    businessName: $("businessInput").value.trim(),
+    status: $("statusInput").value.trim(),
+    notes: $("notesInput").value.trim(),
+    isFavorite: $("favoriteInput").checked,
+  };
+  const errors = validateAccount(data, state.accounts, editingId);
+  if (errors.length) {
+    $("formError").textContent = errors[0];
+    $("formError").hidden = false;
+    return;
+  }
+  const now = new Date().toISOString();
+  if (editingId) {
+    Object.assign(
+      state.accounts.find((x) => x.id === editingId),
+      data,
+      { updatedAt: now },
+    );
+  } else
+    state.accounts.push({
+      ...data,
+      id: uuid(),
+      createdAt: now,
+      updatedAt: now,
+    });
+  await saveStorageData(state);
+  $("accountDialog").close();
+  renderAccounts();
+});
+$("searchInput").addEventListener("input", (e) => {
+  query = e.target.value;
+  renderAccounts();
+});
+$("addBtn").onclick = $("emptyAddBtn").onclick = () => showDialog();
+$("manageBtn").onclick = $("importExportBtn").onclick = () =>
+  chrome.runtime.openOptionsPage();
+$("settingsBtn").onclick = () => {
+  $("settingsMenu").hidden = !$("settingsMenu").hidden;
+};
+$("menuExportBtn").onclick = exportJSON;
+$("menuImportBtn").onclick = () => chrome.runtime.openOptionsPage();
+$("clearRecentBtn").onclick = async () => {
+  state.recentAccountIds = [];
+  await saveStorageData(state);
+  renderAccounts();
+  showMessage("Recent accounts cleared.");
+};
+$("themeToggleBtn").onclick = async () => {
+  state.settings.theme = state.settings.theme === "dark" ? "light" : "dark";
+  applyTheme();
+  await saveStorageData(state);
+};
+$("aboutBtn").onclick = () => $("aboutDialog").showModal();
+$("closeAboutBtn").onclick = () => $("aboutDialog").close();
+$("cancelDialog").onclick = () => $("accountDialog").close();
+$("scanSelectedBtn").onclick = () => scanAdsManagerDropdown("selected");
+$("scanAllBtn").onclick = () => scanAdsManagerDropdown("auto");
+$("rescanBtn").onclick = () => scanAdsManagerDropdown("selected");
+$("selectAllNewBtn").onclick = selectAllUnsaved;
+$("unselectAllBtn").onclick = unselectAllScanned;
+$("saveScannedBtn").onclick = saveSelectedScannedAccounts;
+$("cancelScanBtn").onclick = $("closeScanBtn").onclick = () =>
+  $("scanDialog").close();
+$("cancelDeleteBtn").onclick = () => $("deleteDialog").close();
+$("confirmDeleteBtn").onclick = async () => {
+  await deleteAccount(pendingDeleteId);
+  pendingDeleteId = "";
+  $("deleteDialog").close();
+};
+$("openInBackgroundInput").addEventListener("change", async (e) => {
+  state.settings = {
+    ...STORAGE_DEFAULT.settings,
+    ...(state.settings || {}),
+    openInBackground: e.target.checked,
+  };
+  await saveStorageData(state);
+});
+getStorageData().then((d) => {
+  state = d;
+  $("openInBackgroundInput").checked = state.settings.openInBackground;
+  applyTheme();
+  renderAccounts();
+});

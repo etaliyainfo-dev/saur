@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Meta Ads Account Switcher Options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Chrome Extension Settings</p>
+          <h1>Meta Ads Account Switcher</h1>
+          <p>Manage saved ad accounts, favorites, imports, and exports.</p>
+        </div>
+        <div class="actions">
+          <button id="exportCsvBtn" class="secondary">Export CSV</button
+          ><button id="exportJsonBtn" class="secondary">Export JSON</button>
+        </div>
+      </header>
+      <div id="message" class="message" hidden></div>
+      <section class="grid">
+        <form id="accountForm" class="panel">
+          <h2 id="formTitle">Add account</h2>
+          <input type="hidden" id="editingId" /><label
+            >Name *<input id="nameInput" required /></label
+          ><label>Account ID *<input id="accountIdInput" required /></label
+          ><label>Business name<input id="businessInput" /></label
+          ><label>Status / tag<input id="statusInput" /></label
+          ><label>Notes<textarea id="notesInput" rows="4"></textarea></label
+          ><label class="check"
+            ><input id="favoriteInput" type="checkbox" /> Favorite</label
+          >
+          <p id="formError" class="error" hidden></p>
+          <div class="row">
+            <button class="primary" type="submit">Save Account</button
+            ><button class="secondary" type="button" id="resetFormBtn">
+              Reset
+            </button>
+          </div>
+        </form>
+        <section class="panel">
+          <h2>Import / data tools</h2>
+          <p class="muted">
+            CSV columns: name, accountId, businessName, status, notes,
+            isFavorite
+          </p>
+          <input id="csvFileInput" type="file" accept=".csv,text/csv" />
+          <div class="row wrap">
+            <button id="importCsvBtn" class="primary" type="button">
+              Import CSV</button
+            ><button id="clearAllBtn" class="danger" type="button">
+              Clear all data
+            </button>
+          </div>
+          <pre id="importSummary" class="summary" hidden></pre>
+        </section>
+      </section>
+      <section class="panel table-panel">
+        <div class="table-head">
+          <h2>Saved accounts</h2>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search accounts…"
+          />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Favorite</th>
+                <th>Name</th>
+                <th>Account ID</th>
+                <th>Business</th>
+                <th>Status</th>
+                <th>Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="accountsTable"></tbody>
+          </table>
+        </div>
+        <div id="emptyState" class="empty" hidden>No accounts saved yet.</div>
+      </section>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>
