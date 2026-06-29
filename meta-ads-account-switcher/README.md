@@ -12,7 +12,7 @@ A production-ready Chrome/Edge Manifest V3 extension for saving, searching, favo
 - Requires no backend, no external CDN, no paid API, and no Meta API approval.
 - Uses text-based SVG placeholder icons so the source can be reviewed in GitHub/PR tools without binary preview issues.
 - Can scan the visible Meta Ads Manager account switcher dropdown locally and save selected discovered accounts without the Meta API.
-- Opens accounts in new tabs and includes a popup setting to choose background tabs, enabled by default.
+- Opens accounts in new tabs and includes a premium dashboard with current opened account, statistics, favorites, recent accounts, saved accounts, settings menu, and a background-tab toggle enabled by default.
 
 ## Install locally
 
@@ -60,7 +60,7 @@ If Meta only renders accounts for the selected portfolio, the extension shows a 
 
 ## Opening accounts
 
-Accounts open with `chrome.tabs.create()` in a new tab. By default, **Open accounts in background tab** is enabled in the popup, so your current Ads Manager tab is not redirected or replaced. Turn the setting off if you want opened accounts to become the active foreground tab.
+Accounts open with `chrome.tabs.create()` in a new tab. By default, **Open accounts in background tab** is enabled in the popup, so your current Ads Manager tab is not redirected or replaced. Turn the setting off if you want opened accounts to become the active foreground tab. The dashboard also keeps the latest opened account visible in the **Current Opened Account** card.
 
 ## Add an account
 
