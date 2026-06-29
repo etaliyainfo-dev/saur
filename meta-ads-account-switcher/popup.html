@@ -1,73 +1,201 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Facebook Account Switcher</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <main class="app">
-    <header class="top">
-      <div>
-        <p class="eyebrow">Meta Account Switcher</p>
-        <h1>Facebook Account Switcher</h1>
-        <p id="headerSubtext" class="header-subtext">0 saved accounts</p>
-      </div>
-      <button id="settingsBtn" class="icon-btn gear" title="Settings">⚙</button>
-      <div id="settingsMenu" class="settings-menu" hidden>
-        <button type="button" id="menuExportBtn">⬇ Export Accounts</button>
-        <button type="button" id="menuImportBtn">⬆ Import Accounts</button>
-        <button type="button" id="clearRecentBtn">🧹 Clear Recent Accounts</button>
-        <button type="button" id="themeToggleBtn">🌙 Theme: Light</button>
-        <button type="button" id="aboutBtn">ℹ About Extension</button>
-        <div class="menu-version">Version 1.0.0</div>
-      </div>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Facebook Account Switcher</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="top">
+        <div>
+          <p class="eyebrow">Meta Account Switcher</p>
+          <h1>Facebook Account Switcher</h1>
+          <p id="headerSubtext" class="header-subtext">0 saved accounts</p>
+        </div>
+        <button id="settingsBtn" class="icon-btn gear" title="Settings">
+          ⚙
+        </button>
+        <div id="settingsMenu" class="settings-menu" hidden>
+          <button type="button" id="menuExportBtn">⬇ Export Accounts</button>
+          <button type="button" id="menuImportBtn">⬆ Import Accounts</button>
+          <button type="button" id="clearRecentBtn">
+            🧹 Clear Recent Accounts
+          </button>
+          <button type="button" id="themeToggleBtn">🌙 Theme: Light</button>
+          <button type="button" id="aboutBtn">ℹ About Extension</button>
+          <div class="menu-version">Version 1.0.0</div>
+        </div>
+      </header>
 
-    <section id="statsRow" class="stats-row"></section>
-    <div id="message" class="message" hidden></div>
+      <section id="statsRow" class="stats-row"></section>
+      <div id="message" class="message" hidden></div>
 
-    <section class="current-section">
-      <h2>🟢 Current Opened Account</h2>
-      <div id="currentAccountCard" class="current-card empty-current"></div>
-    </section>
+      <section class="current-section">
+        <h2>🟢 Current Opened Account</h2>
+        <div id="currentAccountCard" class="current-card empty-current"></div>
+      </section>
 
-    <section class="scan-panel">
-      <div class="scan-buttons"><button id="scanSelectedBtn" class="primary">Scan selected portfolio</button><button id="scanAllBtn" class="secondary">Auto scan visible portfolios</button></div>
-      <p class="hint">Open Ads Manager's account switcher dropdown first. Selected scan is safest; auto scan clicks visible portfolio rows.</p>
-    </section>
+      <section class="scan-panel">
+        <div class="scan-buttons">
+          <button id="scanSelectedBtn" class="primary">
+            Scan selected portfolio</button
+          ><button id="scanAllBtn" class="secondary">
+            Auto scan visible portfolios
+          </button>
+        </div>
+        <p class="hint">
+          Open Ads Manager's account switcher dropdown first. Selected scan is
+          safest; auto scan clicks visible portfolio rows.
+        </p>
+      </section>
 
-    <section class="settings-panel"><label class="check muted"><input id="openInBackgroundInput" type="checkbox"> Open accounts in background tab</label></section>
+      <section class="settings-panel">
+        <label class="check muted"
+          ><input id="openInBackgroundInput" type="checkbox" /> Open accounts in
+          background tab</label
+        >
+      </section>
 
-    <section id="emptyState" class="empty" hidden><div class="empty-icon">📂</div><h2>No Accounts Added Yet</h2><p>Click below to save your first account.</p><button id="emptyAddBtn" class="add-gradient">＋ Add Account</button></section>
+      <section id="emptyState" class="empty" hidden>
+        <div class="empty-icon">📂</div>
+        <h2>No Accounts Added Yet</h2>
+        <p>Click below to save your first account.</p>
+        <button id="emptyAddBtn" class="add-gradient">＋ Add Account</button>
+      </section>
 
-    <section id="content">
-      <section class="section"><h2>⭐ Favorites</h2><div id="favoritesList" class="list"></div></section>
-      <section class="section"><h2>Recent Accounts</h2><div id="recentList" class="list"></div></section>
-      <section class="section saved-section"><div class="section-head"><h2>Saved Accounts</h2></div><div class="search-wrap"><span>🔍</span><input id="searchInput" type="search" placeholder="Search Accounts..." autocomplete="off"></div><div id="accountsList" class="list"></div></section>
-    </section>
+      <section id="content">
+        <section class="section">
+          <h2>⭐ Favorites</h2>
+          <div id="favoritesList" class="list"></div>
+        </section>
+        <section class="section">
+          <h2>Recent Accounts</h2>
+          <div id="recentList" class="list"></div>
+        </section>
+        <section class="section saved-section">
+          <div class="section-head"><h2>Saved Accounts</h2></div>
+          <div class="search-wrap">
+            <span>🔍</span
+            ><input
+              id="searchInput"
+              type="search"
+              placeholder="Search Accounts..."
+              autocomplete="off"
+            />
+          </div>
+          <div id="accountsList" class="list"></div>
+        </section>
+      </section>
 
-    <footer><button id="addBtn" class="add-gradient">＋ Add Account</button><button id="manageBtn" class="secondary">⚙ Account Manager</button><button id="importExportBtn" class="secondary">Import/Export</button><p class="footer-note">Meta Account Switcher · Version 1.0.0 · Made with ❤️</p></footer>
-  </main>
+      <footer>
+        <button id="addBtn" class="add-gradient">＋ Add Account</button
+        ><button id="manageBtn" class="secondary">⚙ Account Manager</button
+        ><button id="importExportBtn" class="secondary">Import/Export</button>
+        <p class="footer-note">
+          Meta Account Switcher · Version 1.0.0 · Made with ❤️
+        </p>
+      </footer>
+    </main>
 
-  <dialog id="accountDialog"><form id="accountForm" method="dialog"><h2 id="dialogTitle">Add Account</h2><input type="hidden" id="editingId"><label>Name *<input id="nameInput" required maxlength="120"></label><label>Account ID *<input id="accountIdInput" required placeholder="557805135391043 or act_557805135391043"></label><label>Card / Business name<input id="businessInput" maxlength="120"></label><label>Status / tag<input id="statusInput" maxlength="60" placeholder="Active, Paused, Client…"></label><label>Notes<textarea id="notesInput" rows="3" maxlength="1000"></textarea></label><label class="check"><input id="favoriteInput" type="checkbox"> Favorite</label><p id="formError" class="error" hidden></p><menu><button type="button" id="cancelDialog" class="secondary">Cancel</button><button type="submit" class="primary">Save Account</button></menu></form></dialog>
+    <dialog id="accountDialog">
+      <form id="accountForm" method="dialog">
+        <h2 id="dialogTitle">Add Account</h2>
+        <input type="hidden" id="editingId" /><label
+          >Name *<input id="nameInput" required maxlength="120" /></label
+        ><label
+          >Account ID *<input
+            id="accountIdInput"
+            required
+            placeholder="557805135391043 or act_557805135391043" /></label
+        ><label
+          >Card / Business name<input
+            id="businessInput"
+            maxlength="120" /></label
+        ><label
+          >Status / tag<input
+            id="statusInput"
+            maxlength="60"
+            placeholder="Active, Paused, Client…" /></label
+        ><label
+          >Notes<textarea
+            id="notesInput"
+            rows="3"
+            maxlength="1000"
+          ></textarea></label
+        ><label class="check"
+          ><input id="favoriteInput" type="checkbox" /> Favorite</label
+        >
+        <p id="formError" class="error" hidden></p>
+        <menu>
+          <button type="button" id="cancelDialog" class="secondary">
+            Cancel</button
+          ><button type="submit" class="primary">Save Account</button>
+        </menu>
+      </form>
+    </dialog>
 
-  <dialog id="deleteDialog"><form method="dialog"><h2>Delete Account?</h2><p class="muted">This action cannot be undone.</p><p id="deleteAccountName" class="delete-name"></p><menu><button type="button" id="cancelDeleteBtn" class="secondary">Cancel</button><button type="button" id="confirmDeleteBtn" class="danger-solid">Delete</button></menu></form></dialog>
+    <dialog id="deleteDialog">
+      <form method="dialog">
+        <h2>Delete Account?</h2>
+        <p class="muted">This action cannot be undone.</p>
+        <p id="deleteAccountName" class="delete-name"></p>
+        <menu>
+          <button type="button" id="cancelDeleteBtn" class="secondary">
+            Cancel</button
+          ><button type="button" id="confirmDeleteBtn" class="danger-solid">
+            Delete
+          </button>
+        </menu>
+      </form>
+    </dialog>
 
-  <dialog id="aboutDialog"><form method="dialog"><h2>About Extension</h2><p class="muted">Meta Account Switcher helps you manage and open saved Meta Ads accounts locally without a backend or Meta API.</p><p class="muted">Version 1.0.0</p><menu><button type="button" id="closeAboutBtn" class="primary">Done</button></menu></form></dialog>
+    <dialog id="aboutDialog">
+      <form method="dialog">
+        <h2>About Extension</h2>
+        <p class="muted">
+          Meta Account Switcher helps you manage and open saved Meta Ads
+          accounts locally without a backend or Meta API.
+        </p>
+        <p class="muted">Version 1.0.0</p>
+        <menu>
+          <button type="button" id="closeAboutBtn" class="primary">Done</button>
+        </menu>
+      </form>
+    </dialog>
 
-  <dialog id="scanDialog" class="wide-dialog">
-    <form method="dialog" id="scanForm">
-      <div class="dialog-head"><div><p class="eyebrow">Ads Manager Scan</p><h2>Discovered Accounts</h2></div><button type="button" id="closeScanBtn" class="icon-btn">×</button></div>
-      <div id="scanNotice" class="message" hidden></div>
-      <div id="scanStats" class="stats"></div>
-      <div class="scan-actions"><button type="button" id="selectAllNewBtn" class="secondary">Select all unsaved</button><button type="button" id="unselectAllBtn" class="secondary">Unselect all</button><button type="button" id="rescanBtn" class="secondary">Rescan</button></div>
-      <div id="scanResults" class="scan-results"></div>
-      <p id="scanSaveError" class="error" hidden></p>
-      <menu><button type="button" id="cancelScanBtn" class="secondary">Cancel</button><button type="button" id="saveScannedBtn" class="primary">Save Selected Accounts</button></menu>
-    </form>
-  </dialog>
-  <script src="popup.js"></script>
-</body>
+    <dialog id="scanDialog" class="wide-dialog">
+      <form method="dialog" id="scanForm">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Ads Manager Scan</p>
+            <h2>Discovered Accounts</h2>
+          </div>
+          <button type="button" id="closeScanBtn" class="icon-btn">×</button>
+        </div>
+        <div id="scanNotice" class="message" hidden></div>
+        <div id="scanStats" class="stats"></div>
+        <div class="scan-actions">
+          <button type="button" id="selectAllNewBtn" class="secondary">
+            Select all unsaved</button
+          ><button type="button" id="unselectAllBtn" class="secondary">
+            Unselect all</button
+          ><button type="button" id="rescanBtn" class="secondary">
+            Rescan
+          </button>
+        </div>
+        <div id="scanResults" class="scan-results"></div>
+        <p id="scanSaveError" class="error" hidden></p>
+        <menu>
+          <button type="button" id="cancelScanBtn" class="secondary">
+            Cancel</button
+          ><button type="button" id="saveScannedBtn" class="primary">
+            Save Selected Accounts
+          </button>
+        </menu>
+      </form>
+    </dialog>
+    <script src="popup.js"></script>
+  </body>
 </html>
