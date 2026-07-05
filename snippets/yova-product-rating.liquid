@@ -1,0 +1,14 @@
+{%- liquid assign yova_product = product_card_product | default: card_product | default: product -%}
+<div class="yova-card__rating" aria-label="Product reviews">
+  {%- if yova_product.metafields.judgeme.badge != blank -%}
+    {{ yova_product.metafields.judgeme.badge }}
+  {%- elsif yova_product.metafields.loox.avg_rating != blank -%}
+    <div class="loox-rating" data-id="{{ yova_product.id }}" data-rating="{{ yova_product.metafields.loox.avg_rating }}" data-raters="{{ yova_product.metafields.loox.num_reviews }}"></div>
+  {%- elsif yova_product.metafields.stamped.reviews_average != blank -%}
+    <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ yova_product.id }}" data-product-sku="{{ yova_product.handle }}"></span>
+  {%- elsif yova_product.metafields.ryviu.product_reviews_info != blank -%}
+    <div class="ryviu-collection" data-product_id="{{ yova_product.id }}" data-handle="{{ yova_product.handle }}"></div>
+  {%- elsif yova_product.metafields.reviews.rating.value != blank -%}
+    <span class="yova-card__rating-native"><span class="yova-card__rating-star" aria-hidden="true">★</span> {{ yova_product.metafields.reviews.rating.value.rating | default: yova_product.metafields.reviews.rating.value }}{%- if yova_product.metafields.reviews.rating_count != blank -%}<span class="yova-card__rating-separator">|</span>{{ yova_product.metafields.reviews.rating_count }}{%- endif -%}</span>
+  {%- endif -%}
+</div>

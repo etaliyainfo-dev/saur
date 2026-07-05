@@ -1,0 +1,22 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign badge_text = ''
+  assign badge_source = yova_product.metafields.custom.product_badge.value | default: yova_product.metafields.custom.product_badge
+  if badge_source != blank
+    assign badge_text = badge_source
+  else
+    assign priority_tags = 'Best Seller,Trending,Limited,New,Sale' | split: ','
+    for priority_tag in priority_tags
+      if yova_product.tags contains priority_tag
+        assign badge_text = priority_tag
+        break
+      endif
+    endfor
+  endif
+  if badge_text == blank and yova_product.compare_at_price_max > yova_product.price
+    assign badge_text = 'products.product.on_sale' | t | default: 'Sale'
+  endif
+-%}
+{%- if badge_text != blank -%}
+  <span class="yova-card__badge yova-card__badge--{{ badge_position | default: 'top-left' }}" style="--yova-badge-bg: {{ badge_background | default: '#111111' }}; --yova-badge-color: {{ badge_color | default: '#ffffff' }}; --yova-badge-radius: {{ badge_radius | default: 18 }}px; --yova-badge-size: {{ badge_font_size | default: 14 }}px; --yova-badge-px: {{ badge_padding_x | default: 14 }}px; --yova-badge-py: {{ badge_padding_y | default: 8 }}px;">{{ badge_text | escape }}</span>
+{%- endif -%}

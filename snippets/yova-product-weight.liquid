@@ -1,0 +1,10 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign custom_weight = yova_product.metafields.custom.weight.value | default: yova_product.metafields.custom.weight
+  assign variant = yova_product.selected_or_first_available_variant
+-%}
+{%- if custom_weight != blank -%}
+  <span class="yova-card__weight">{{ custom_weight }}</span>
+{%- elsif variant.weight > 0 -%}
+  <span class="yova-card__weight">{{ variant.weight | weight_with_unit }}</span>
+{%- endif -%}

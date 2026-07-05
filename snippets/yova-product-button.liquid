@@ -1,0 +1,21 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign variant = yova_product.selected_or_first_available_variant
+  assign use_ajax_enabled = true
+  if use_ajax == false
+    assign use_ajax_enabled = false
+  endif
+-%}
+{%- if yova_product.available and variant.available -%}
+  <form method="post" action="{{ routes.cart_add_url }}" class="yova-card__form yova-card__form--{{ button_width | default: 'full' }}" data-yova-cart-form{% if use_ajax_enabled %} data-yova-ajax-cart{% endif %}>
+    <input type="hidden" name="id" value="{{ variant.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="yova-card__button yova-card__button--{{ button_style | default: 'solid' }}" aria-label="{{ 'products.product.add_to_cart' | t }} {{ yova_product.title | escape }}">
+      <span class="yova-card__button-text">{{ 'products.product.add_to_cart' | t }}</span>
+      <span class="yova-card__button-loader" aria-hidden="true"></span>
+    </button>
+    <div class="yova-card__form-message" role="status" aria-live="polite"></div>
+  </form>
+{%- else -%}
+  <button type="button" class="yova-card__button yova-card__button--disabled" disabled>{{ 'products.product.sold_out' | t }}</button>
+{%- endif -%}

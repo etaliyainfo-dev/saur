@@ -1,0 +1,10 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign short_description = yova_product.metafields.custom.short_description.value | default: yova_product.metafields.custom.short_description
+  if short_description == blank
+    assign short_description = yova_product.description | strip_html | truncate: 140
+  endif
+-%}
+{%- if short_description != blank -%}
+  <p class="yova-card__description">{{ short_description }}</p>
+{%- endif -%}
