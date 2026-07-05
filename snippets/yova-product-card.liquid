@@ -1,0 +1,98 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign show_rating_enabled = true
+  assign show_badge_enabled = true
+  assign show_countdown_enabled = false
+  assign show_weight_enabled = true
+  assign show_description_enabled = true
+  assign show_quick_add_enabled = true
+  if show_rating == false
+    assign show_rating_enabled = false
+  endif
+  if show_badge == false
+    assign show_badge_enabled = false
+  endif
+  if show_countdown == true
+    assign show_countdown_enabled = true
+  endif
+  if show_weight == false
+    assign show_weight_enabled = false
+  endif
+  if show_description == false
+    assign show_description_enabled = false
+  endif
+  if show_quick_add == false
+    assign show_quick_add_enabled = false
+  endif
+-%}
+{%- if yova_product != blank -%}
+  <article
+    class="yova-card yova-card--shadow-{{ card_shadow | default: 'soft' }} yova-card--hover-shadow-{{ hover_shadow | default: 'strong' }}"
+    style="
+      --yova-card-bg: {{ card_background | default: '#ffffff' }};
+      --yova-card-radius: {{ card_radius | default: 28 }}px;
+      --yova-card-border: {{ border_color | default: '#E7E1DB' }};
+      --yova-card-border-width: {{ border_width | default: 1 }}px;
+      --yova-card-padding: {{ card_padding | default: 12 }}px;
+      --yova-card-gap: {{ card_gap | default: 14 }}px;
+      --yova-hover-lift: {{ hover_lift | default: 4 }}px;
+      --yova-image-radius: {{ image_radius | default: 22 }}px;
+      --yova-image-padding: {{ image_padding | default: 0 }}px;
+      --yova-image-bg: {{ image_background | default: '#faf7f4' }};
+      --yova-image-zoom: {{ image_hover_zoom | default: 105 | divided_by: 100.0 }};
+      --yova-image-scale: {{ image_scale | default: 100 | divided_by: 100.0 }};
+      --yova-title-size-d: {{ title_size_desktop | default: 20 }}px;
+      --yova-title-size-m: {{ title_size_mobile | default: 18 }}px;
+      --yova-title-weight: {{ title_weight | default: 800 }};
+      --yova-title-lines: {{ title_line_clamp | default: 2 }};
+      --yova-title-color: {{ title_color | default: '#111111' }};
+      --yova-title-spacing: {{ title_spacing | default: 8 }}px;
+      --yova-desc-size-d: {{ description_size_desktop | default: 15 }}px;
+      --yova-desc-size-m: {{ description_size_mobile | default: 14 }}px;
+      --yova-desc-color: {{ description_color | default: '#6f6a64' }};
+      --yova-desc-lines: {{ description_line_clamp | default: 2 }};
+      --yova-desc-spacing: {{ description_spacing | default: 10 }}px;
+      --yova-price-size: {{ price_size | default: 22 }}px;
+      --yova-compare-size: {{ compare_price_size | default: 16 }}px;
+      --yova-discount-size: {{ discount_size | default: 16 }}px;
+      --yova-price-spacing: {{ price_spacing | default: 16 }}px;
+      --yova-price-color: {{ price_color | default: '#111111' }};
+      --yova-discount-color: {{ discount_color | default: '#ff3b30' }};
+      --yova-rating-size: {{ rating_font_size | default: 14 }}px;
+      --yova-rating-icon-size: {{ rating_icon_size | default: 18 }}px;
+      --yova-rating-spacing: {{ rating_spacing | default: 8 }}px;
+      --yova-weight-radius: {{ weight_radius | default: 999 }}px;
+      --yova-weight-px: {{ weight_padding_x | default: 12 }}px;
+      --yova-weight-py: {{ weight_padding_y | default: 8 }}px;
+      --yova-weight-size: {{ weight_font_size | default: 14 }}px;
+      --yova-button-bg: {{ button_color | default: '#0a66d1' }};
+      --yova-button-color: {{ button_text_color | default: '#ffffff' }};
+      --yova-button-hover-bg: {{ button_hover_color | default: '#064fa8' }};
+      --yova-button-hover-color: {{ button_hover_text_color | default: '#ffffff' }};
+      --yova-button-radius: {{ button_radius | default: 16 }}px;
+      --yova-button-height-d: {{ button_height_desktop | default: 56 }}px;
+      --yova-button-height-m: {{ button_height_mobile | default: 52 }}px;
+      --yova-button-px: {{ button_padding_x | default: 18 }}px;
+      --yova-button-py: {{ button_padding_y | default: 12 }}px;
+      --yova-button-size-d: {{ button_size_desktop | default: 18 }}px;
+      --yova-button-size-m: {{ button_size_mobile | default: 17 }}px;
+    "
+    data-yova-product-id="{{ yova_product.id }}"
+  >
+    <div class="yova-card__visual">
+      {%- if show_badge_enabled -%}{% render 'yova-product-badge', product_card_product: yova_product, badge_background: badge_background, badge_color: badge_color, badge_radius: badge_radius, badge_font_size: badge_font_size, badge_padding_x: badge_padding_x, badge_padding_y: badge_padding_y, badge_position: badge_position %}{%- endif -%}
+      {%- if show_countdown_enabled -%}{% render 'yova-product-countdown', product_card_product: yova_product, countdown_position: countdown_position, countdown_radius: countdown_radius, countdown_background: countdown_background, countdown_color: countdown_color %}{%- endif -%}
+      {% render 'yova-product-image', product_card_product: yova_product, image_ratio: image_ratio, enable_hover_image: enable_hover_image, lazy_loading: lazy_loading, fetchpriority: fetchpriority, image_object_fit: image_object_fit %}
+      <div class="yova-card__meta-pills yova-card__meta-pills--weight-{{ weight_position | default: 'bottom-right' }}">
+        {%- if show_rating_enabled -%}{% render 'yova-product-rating', product_card_product: yova_product %}{%- endif -%}
+        {%- if show_weight_enabled -%}{% render 'yova-product-weight', product_card_product: yova_product %}{%- endif -%}
+      </div>
+    </div>
+    <div class="yova-card__content">
+      <h3 class="yova-card__title"><a href="{{ yova_product.url }}">{{ yova_product.title | escape }}</a></h3>
+      {%- if show_description_enabled -%}{% render 'yova-product-description', product_card_product: yova_product %}{%- endif -%}
+      {% render 'yova-product-price', product_card_product: yova_product, show_compare_price: show_compare_price, show_discount: show_discount %}
+      {%- if show_quick_add_enabled -%}{% render 'yova-product-button', product_card_product: yova_product, use_ajax: use_ajax, button_style: button_style, button_width: button_width %}{%- endif -%}
+    </div>
+  </article>
+{%- endif -%}

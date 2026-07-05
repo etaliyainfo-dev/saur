@@ -1,0 +1,29 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign image_ratio = image_ratio | default: 'portrait'
+  assign enable_hover_image = enable_hover_image | default: false
+  assign lazy_loading = lazy_loading | default: true
+  assign featured_media = yova_product.featured_media
+  assign hover_media = yova_product.media[1]
+  assign loading_mode = 'eager'
+  assign fetch_priority = 'auto'
+  if lazy_loading
+    assign loading_mode = 'lazy'
+  endif
+  if fetchpriority == true or fetchpriority == 'high'
+    assign loading_mode = 'eager'
+    assign fetch_priority = 'high'
+  endif
+-%}
+<a class="yova-card__media-link" href="{{ yova_product.url }}" aria-label="{{ yova_product.title | escape }}" tabindex="-1">
+  <div class="yova-card__media yova-card__media--{{ image_ratio }} yova-card__media--fit-{{ image_object_fit | default: 'cover' }}">
+    {%- if featured_media != blank -%}
+      {{ featured_media | image_url: width: 1400 | image_tag: widths: '240, 320, 420, 560, 720, 900, 1100, 1400', sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 45vw, 92vw', class: 'yova-card__image yova-card__image--primary', loading: loading_mode, fetchpriority: fetch_priority, alt: featured_media.alt | default: yova_product.title | escape }}
+      {%- if enable_hover_image and hover_media != blank -%}
+        {{ hover_media | image_url: width: 1400 | image_tag: widths: '240, 320, 420, 560, 720, 900, 1100, 1400', sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 45vw, 92vw', class: 'yova-card__image yova-card__image--hover', loading: 'lazy', alt: hover_media.alt | default: yova_product.title | escape }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'yova-card__placeholder' }}
+    {%- endif -%}
+  </div>
+</a>

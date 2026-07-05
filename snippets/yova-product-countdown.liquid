@@ -1,0 +1,7 @@
+{%- liquid
+  assign yova_product = product_card_product | default: card_product | default: product
+  assign offer_end = yova_product.metafields.custom.offer_end.value | default: yova_product.metafields.custom.offer_end
+-%}
+{%- if offer_end != blank -%}
+  <time class="yova-card__countdown yova-card__countdown--{{ countdown_position | default: 'top-left' }}" style="--yova-countdown-bg: {{ countdown_background | default: '#9B4FE8' }}; --yova-countdown-color: {{ countdown_color | default: '#ffffff' }}; --yova-countdown-radius: {{ countdown_radius | default: 8 }}px;" data-yova-countdown datetime="{{ offer_end | date: '%Y-%m-%dT%H:%M:%S%z' }}" aria-live="polite"></time>
+{%- endif -%}
